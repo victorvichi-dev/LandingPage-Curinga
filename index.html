@@ -3,35 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Bem-vindo ao nosso site. Conheça nossos serviços e diferenciais.">
-    <meta name="author" content="Nome da Empresa">
+    <title id="meta-title"></title>
+    <meta name="description" id="meta-description" content="">
     
-    <!-- Open Graph / SEO Padrão (Sobrescrito parcialmente pelo JS se houver configuração) -->
-    <meta property="og:title" content="Site Oficial">
-    <meta property="og:description" content="Conheça nossos serviços e diferenciais.">
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:image" content="">
-
-    <title>Landing Page Curinga</title>
+    <meta property="og:title" id="og-title" content="">
+    <meta property="og:description" id="og-description" content="">
+    <meta property="og:image" id="og-image" content="">
+    <meta property="og:url" id="og-url" content="">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="header" id="header">
-        <div class="container header-content">
-            <a href="#" class="logo" id="logo-text" aria-label="Página inicial">Empresa</a>
-            <img src="" alt="Logotipo" id="logo-img" class="logo-img hidden">
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo-link">
+                <img id="header-logo" src="" alt="Logotipo da Empresa" style="display:none;">
+                <span id="company-name" class="company-name"></span>
+            </a>
             
-            <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="main-menu" aria-label="Abrir menu de navegação">
+            <button type="button" id="mobile-menu-btn" aria-expanded="false" aria-controls="main-menu" aria-label="Abrir menu">
                 <span class="hamburger"></span>
             </button>
-
-            <nav id="main-menu" class="main-menu" aria-hidden="true">
-                <ul>
-                    <li><a href="#inicio">Início</a></li>
-                    <li><a href="#sobre">Sobre</a></li>
+            
+            <nav id="main-menu" class="main-menu">
+                <ul class="menu-list">
+                    <li><a href="#hero">Início</a></li>
                     <li><a href="#servicos">Serviços</a></li>
                     <li><a href="#diferenciais">Diferenciais</a></li>
-                    <li><a href="#avaliacoes" id="nav-avaliacoes">Avaliações</a></li>
+                    <li><a href="#galeria">Galeria</a></li>
+                    <li><a href="#avaliacoes">Avaliações</a></li>
                     <li><a href="#contato">Contato</a></li>
                 </ul>
             </nav>
@@ -39,84 +41,62 @@
     </header>
 
     <main>
-        <!-- Seção Hero -->
-        <section id="inicio" class="hero">
-            <div class="container hero-content">
-                <h1 id="hero-title">Bem-vindo(a)</h1>
-                <p id="hero-subtitle">A melhor solução para o seu negócio.</p>
-                <a href="#contato" class="btn btn-primary" id="hero-cta">Fale Conosco</a>
+        <section id="hero" class="hero-section">
+            <div class="hero-content">
+                <h1 id="hero-title"></h1>
+                <p id="hero-text"></p>
+                <a id="hero-cta" href="#" class="btn-primary" target="_blank" rel="noopener noreferrer" style="display:none;"></a>
+            </div>
+            <div class="hero-image-container">
+                <img id="hero-img" src="" alt="Imagem Principal" style="display:none;">
             </div>
         </section>
 
-        <!-- Seção Sobre -->
-        <section id="sobre" class="section sobre">
-            <div class="container sobre-grid">
-                <div class="sobre-text">
-                    <h2 class="section-title">Sobre Nós</h2>
-                    <p id="sobre-descricao">Descrição da empresa aparecerá aqui.</p>
-                </div>
-                <div class="sobre-img-container">
-                    <img src="" alt="Sobre a empresa" id="sobre-img" class="responsive-img">
-                </div>
-            </div>
-        </section>
-
-        <!-- Seção Diferenciais -->
-        <section id="diferenciais" class="section diferenciais bg-light">
+        <section id="servicos" class="servicos-section" style="display:none;">
             <div class="container">
-                <h2 class="section-title text-center">Nossos Diferenciais</h2>
-                <div class="grid" id="diferenciais-grid">
-                    <!-- Gerado dinamicamente -->
-                </div>
+                <h2>Nossos Serviços</h2>
+                <div id="servicos-grid" class="servicos-grid"></div>
             </div>
         </section>
 
-        <!-- Seção Serviços/Produtos -->
-        <section id="servicos" class="section servicos">
+        <section id="diferenciais" class="diferenciais-section" style="display:none;">
             <div class="container">
-                <h2 class="section-title text-center" id="servicos-titulo">Nossos Serviços</h2>
-                <div class="grid" id="servicos-grid">
-                    <!-- Gerado dinamicamente -->
-                </div>
+                <h2>Por que nos escolher?</h2>
+                <div id="diferenciais-grid" class="diferenciais-grid"></div>
             </div>
         </section>
 
-        <!-- Seção Avaliações (Opcional) -->
-        <section id="avaliacoes" class="section avaliacoes bg-light">
+        <section id="galeria" class="galeria-section" style="display:none;">
             <div class="container">
-                <h2 class="section-title text-center">O que dizem nossos clientes</h2>
-                <div class="grid" id="avaliacoes-grid">
-                    <!-- Gerado dinamicamente -->
-                </div>
+                <h2>Galeria</h2>
+                <div id="galeria-grid" class="galeria-grid"></div>
             </div>
         </section>
 
-        <!-- Seção Contato -->
-        <section id="contato" class="section contato">
-            <div class="container contato-grid">
+        <section id="avaliacoes" class="avaliacoes-section" style="display:none;">
+            <div class="container">
+                <h2>O que dizem nossos clientes</h2>
+                <div id="avaliacoes-grid" class="avaliacoes-grid"></div>
+            </div>
+        </section>
+
+        <section id="contato" class="contato-section">
+            <div class="container">
+                <h2>Contato</h2>
                 <div class="contato-info">
-                    <h2 class="section-title">Entre em Contato</h2>
-                    <ul class="contact-list" id="contact-list">
-                        <!-- Links injetados aqui -->
-                    </ul>
-                    <div class="social-links" id="social-links">
-                        <!-- Redes sociais injetadas aqui -->
-                    </div>
-                    <div class="horarios mt-2" id="horarios-container">
-                        <h3>Horário de Funcionamento</h3>
-                        <p id="horarios-texto"></p>
-                    </div>
+                    <p id="endereco-container"><strong class="contato-label">Endereço:</strong> <span id="endereco-text"></span></p>
+                    <p id="telefone-container"><strong class="contato-label">Telefone:</strong> <a id="telefone-link" href="#"></a></p>
+                    <p id="whatsapp-container"><strong class="contato-label">WhatsApp:</strong> <a id="whatsapp-link" href="#" target="_blank" rel="noopener noreferrer"></a></p>
                 </div>
-                <div class="contato-mapa" id="mapa-container">
-                    <!-- Iframe do mapa será injetado aqui via JS de forma segura -->
-                </div>
+                <div id="redes-sociais-container" class="redes-sociais-container"></div>
+                <div id="mapa-container" class="mapa-container"></div>
             </div>
         </section>
     </main>
 
     <footer class="footer">
-        <div class="container text-center">
-            <p>© <span id="footer-year"></span> <span id="footer-name">Nome da Empresa</span>. Todos os direitos reservados.</p>
+        <div class="container">
+            <p id="footer-text"></p>
         </div>
     </footer>
 
