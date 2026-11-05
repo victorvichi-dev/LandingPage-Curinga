@@ -3,165 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bem-vindo ao nosso site. Conheça nossos serviços e diferenciais.">
+    <meta name="author" content="Nome da Empresa">
     
-    <!-- SEO Dinâmico (Preenchido pelo JS) -->
-    <title>Carregando...</title>
-    <meta name="description" content="" id="meta-description">
-    <meta property="og:title" content="" id="meta-og-title">
-    <meta property="og:description" content="" id="meta-og-description">
-    <meta property="og:image" content="" id="meta-og-image">
+    <!-- Open Graph / SEO Padrão (Sobrescrito parcialmente pelo JS se houver configuração) -->
+    <meta property="og:title" content="Site Oficial">
+    <meta property="og:description" content="Conheça nossos serviços e diferenciais.">
     <meta property="og:type" content="website">
-    
-    <!-- Fontes e Ícones -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    
-    <!-- CSS Principal -->
+    <meta property="og:image" content="">
+
+    <title>Landing Page Curinga</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <!-- Cabeçalho -->
-    <header class="header">
+    <header class="header" id="header">
         <div class="container header-content">
-            <a href="#" class="logo" id="logo-text">Empresa</a>
+            <a href="#" class="logo" id="logo-text" aria-label="Página inicial">Empresa</a>
+            <img src="" alt="Logotipo" id="logo-img" class="logo-img hidden">
             
-            <nav class="nav-menu" id="nav-menu" aria-hidden="true">
-                <ul class="nav-list">
-                    <li><a href="#hero" class="nav-link">Início</a></li>
-                    <li><a href="#sobre" class="nav-link" id="nav-sobre">Sobre</a></li>
-                    <li><a href="#servicos" class="nav-link" id="nav-servicos">Serviços</a></li>
-                    <li><a href="#galeria" class="nav-link" id="nav-galeria">Galeria</a></li>
-                    <li><a href="#contato" class="nav-link">Contato</a></li>
+            <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="main-menu" aria-label="Abrir menu de navegação">
+                <span class="hamburger"></span>
+            </button>
+
+            <nav id="main-menu" class="main-menu" aria-hidden="true">
+                <ul>
+                    <li><a href="#inicio">Início</a></li>
+                    <li><a href="#sobre">Sobre</a></li>
+                    <li><a href="#servicos">Serviços</a></li>
+                    <li><a href="#diferenciais">Diferenciais</a></li>
+                    <li><a href="#avaliacoes" id="nav-avaliacoes">Avaliações</a></li>
+                    <li><a href="#contato">Contato</a></li>
                 </ul>
             </nav>
-
-            <a href="#" class="btn btn-primary wa-link nav-btn" target="_blank" rel="noopener noreferrer">
-                <i class='bx bxl-whatsapp'></i> WhatsApp
-            </a>
-
-            <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false">
-                <i class='bx bx-menu'></i>
-            </button>
         </div>
     </header>
 
     <main>
-        <!-- Hero Section -->
-        <section id="hero" class="hero">
-            <div class="container hero-container">
-                <div class="hero-text">
-                    <h1 id="hero-title">Título Principal</h1>
-                    <p id="hero-subtitle">Subtítulo de apresentação.</p>
-                    <div class="hero-buttons">
-                        <a href="#" class="btn btn-primary wa-link" target="_blank" rel="noopener noreferrer" id="hero-btn-primary">Contato</a>
-                        <a href="#servicos" class="btn btn-outline" id="hero-btn-secondary">Serviços</a>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <img id="hero-img" src="" alt="Imagem de destaque principal">
-                </div>
+        <!-- Seção Hero -->
+        <section id="inicio" class="hero">
+            <div class="container hero-content">
+                <h1 id="hero-title">Bem-vindo(a)</h1>
+                <p id="hero-subtitle">A melhor solução para o seu negócio.</p>
+                <a href="#contato" class="btn btn-primary" id="hero-cta">Fale Conosco</a>
             </div>
         </section>
 
-        <!-- Diferenciais -->
-        <section id="diferenciais" class="differentials bg-light">
-            <div class="container">
-                <div class="diff-grid" id="diff-grid">
-                    <!-- Gerado de forma segura pelo JS -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Sobre Nós -->
-        <section id="sobre" class="about">
-            <div class="container about-container">
-                <div class="about-image">
-                    <img id="about-img" src="" alt="Fotografia sobre a empresa">
-                </div>
-                <div class="about-text">
+        <!-- Seção Sobre -->
+        <section id="sobre" class="section sobre">
+            <div class="container sobre-grid">
+                <div class="sobre-text">
                     <h2 class="section-title">Sobre Nós</h2>
-                    <div id="about-content" class="about-content-text">
-                        <!-- Gerado de forma segura pelo JS -->
-                    </div>
+                    <p id="sobre-descricao">Descrição da empresa aparecerá aqui.</p>
+                </div>
+                <div class="sobre-img-container">
+                    <img src="" alt="Sobre a empresa" id="sobre-img" class="responsive-img">
                 </div>
             </div>
         </section>
 
-        <!-- Serviços / Produtos -->
-        <section id="servicos" class="services bg-light">
+        <!-- Seção Diferenciais -->
+        <section id="diferenciais" class="section diferenciais bg-light">
             <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Nossas Soluções</h2>
-                    <p id="servicos-subtitle">Conheça o que temos de melhor para você.</p>
-                </div>
-                <div class="services-grid" id="services-grid">
-                    <!-- Gerado de forma segura pelo JS -->
+                <h2 class="section-title text-center">Nossos Diferenciais</h2>
+                <div class="grid" id="diferenciais-grid">
+                    <!-- Gerado dinamicamente -->
                 </div>
             </div>
         </section>
 
-        <!-- Galeria -->
-        <section id="galeria" class="gallery">
+        <!-- Seção Serviços/Produtos -->
+        <section id="servicos" class="section servicos">
             <div class="container">
-                <h2 class="section-title text-center">Nossa Galeria</h2>
-                <div class="gallery-grid" id="gallery-grid">
-                    <!-- Gerado de forma segura pelo JS -->
+                <h2 class="section-title text-center" id="servicos-titulo">Nossos Serviços</h2>
+                <div class="grid" id="servicos-grid">
+                    <!-- Gerado dinamicamente -->
                 </div>
             </div>
         </section>
 
-        <!-- Avaliações -->
-        <section id="avaliacoes" class="reviews bg-light">
+        <!-- Seção Avaliações (Opcional) -->
+        <section id="avaliacoes" class="section avaliacoes bg-light">
             <div class="container">
                 <h2 class="section-title text-center">O que dizem nossos clientes</h2>
-                <div class="reviews-grid" id="reviews-grid">
-                    <!-- Gerado de forma segura pelo JS -->
+                <div class="grid" id="avaliacoes-grid">
+                    <!-- Gerado dinamicamente -->
                 </div>
             </div>
         </section>
 
-        <!-- CTA (Chamada para Ação) -->
-        <section class="cta" id="cta-section">
-            <div class="container cta-container">
-                <h2 id="cta-title">Título CTA</h2>
-                <p id="cta-subtitle">Subtítulo CTA</p>
-                <a href="#" class="btn btn-primary btn-lg wa-link" target="_blank" rel="noopener noreferrer" id="cta-btn">
-                    <i class='bx bxl-whatsapp'></i> WhatsApp
-                </a>
-            </div>
-        </section>
-
-        <!-- Contato e Localização -->
-        <section id="contato" class="contact">
-            <div class="container">
-                <div class="contact-grid">
-                    <div class="contact-info" id="contact-info">
-                        <h2 class="section-title">Fale Conosco</h2>
-                        <ul class="contact-list">
-                            <li id="li-address"><i class='bx bx-map'></i> <span id="contact-address">Endereço</span></li>
-                            <li id="li-wa"><i class='bx bxl-whatsapp'></i> <span id="contact-wa-text">WhatsApp</span></li>
-                            <li id="li-phone"><i class='bx bx-phone'></i> <span id="contact-phone">Telefone</span></li>
-                            <li id="li-hours"><i class='bx bx-time-five'></i> <span id="contact-hours">Horário</span></li>
-                        </ul>
-                        <div class="social-links" id="social-links">
-                            <!-- Gerado pelo JS se houver -->
-                        </div>
+        <!-- Seção Contato -->
+        <section id="contato" class="section contato">
+            <div class="container contato-grid">
+                <div class="contato-info">
+                    <h2 class="section-title">Entre em Contato</h2>
+                    <ul class="contact-list" id="contact-list">
+                        <!-- Links injetados aqui -->
+                    </ul>
+                    <div class="social-links" id="social-links">
+                        <!-- Redes sociais injetadas aqui -->
                     </div>
-                    <div class="contact-map" id="map-container">
-                        <!-- Mapa iframe injetado pelo JS -->
+                    <div class="horarios mt-2" id="horarios-container">
+                        <h3>Horário de Funcionamento</h3>
+                        <p id="horarios-texto"></p>
                     </div>
+                </div>
+                <div class="contato-mapa" id="mapa-container">
+                    <!-- Iframe do mapa será injetado aqui via JS de forma segura -->
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Rodapé -->
     <footer class="footer">
-        <div class="container footer-container">
-            <p>© <span id="footer-year">2024</span> <span id="footer-company">Empresa</span>. Todos os direitos reservados.</p>
+        <div class="container text-center">
+            <p>© <span id="footer-year"></span> <span id="footer-name">Nome da Empresa</span>. Todos os direitos reservados.</p>
         </div>
     </footer>
 

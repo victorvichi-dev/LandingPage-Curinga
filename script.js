@@ -1,335 +1,346 @@
-/* =======================================================================
-   AREA DE CONFIGURAÇÃO (SITE_CONFIG)
-   Altere os valores abaixo para personalizar a Landing Page do cliente.
-   Todas as seções que estiverem vazias ou sem itens serão ocultadas automaticamente.
-   ======================================================================= */
+/**
+ * SITE_CONFIG: Arquivo central de configurações do negócio.
+ * Deixe vazio ("") ou null para ocultar a seção correspondente automaticamente.
+ */
 const SITE_CONFIG = {
-    // 1. IDENTIDADE VISUAL E SEO
-    tema: {
-        corPrincipal: '#2563EB', // Ex: '#2563EB' (Azul), '#059669' (Verde), '#E11D48' (Rosa)
-        corHover: '#1D4ED8',
+    empresa: {
+        nome: "Oficina Padrão Ouro",
+        logoUrl: "", // Se vazio, usa o nome em texto
+        descricao: "Somos especialistas em manutenção automotiva com mais de 15 anos de mercado. Garantimos qualidade e transparência em cada serviço.",
+        horarioFuncionamento: "Segunda a Sexta, das 08h às 18h | Sábado das 08h às 12h",
+        cores: {
+            primaria: "#d32f2f", // Ex: Vermelho mecânica
+            secundaria: "#f5f5f5"
+        }
     },
     seo: {
-        descricao: 'Bem-vindo à nossa empresa. Oferecemos as melhores soluções para você.', // Descrição para o Google
-        imagemCompartilhamento: '' // URL da imagem para WhatsApp/Facebook (opcional)
+        metaDescription: "Oficina Padrão Ouro: Manutenção automotiva de confiança e qualidade.",
     },
-    
-    // 2. INFORMAÇÕES GERAIS E CONTATO
-    empresa: {
-        nome: '[DEMONSTRAÇÃO] Nome da Empresa',
-        telefoneFixo: '(00) 0000-0000', // Deixe vazio '' para ocultar
-        whatsapp: '5511900000000', // Apenas números, com DDI (55 para Brasil)
-        whatsappTextoApp: 'Olá! Vim pelo site e gostaria de mais informações.', 
-        endereco: 'Rua Exemplo Fictício, 123 - Centro, Cidade - UF', // Deixe vazio '' para ocultar
-        horario: 'Seg a Sex: 08h às 18h', // Deixe vazio '' para ocultar
-        instagram: 'https://instagram.com/', // Deixe vazio '' para ocultar
-        facebook: 'https://facebook.com/',   // Deixe vazio '' para ocultar
-        linkMapsIframe: '' // Cole o src do iframe do Google Maps aqui. Se vazio, oculta o mapa.
-    },
-
-    // 3. PRIMEIRA DOBRA (HERO)
     hero: {
-        titulo: 'Título principal impactante do seu negócio.',
-        subtitulo: 'Apresente sua proposta de valor em uma linha clara e objetiva para o cliente.',
-        textoBotaoPrimario: 'Fale Conosco',
-        textoBotaoSecundario: 'Ver Serviços', // Deixe vazio para ocultar este botão
-        imagemDestaque: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Pode usar local: './img/hero.jpg'
-        altImagemDestaque: 'Equipe trabalhando e atendendo cliente'
+        titulo: "O Cuidado que seu Carro Merece",
+        subtitulo: "Revisão completa, diagnóstico computadorizado e troca de óleo.",
+        textoBotao: "Agendar Revisão"
     },
-
-    // 4. DIFERENCIAIS (Deixe o array vazio [] para ocultar)
+    imagens: {
+        sobre: "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?q=80&w=800&auto=format&fit=crop", // Coloque URL real
+        sobreAlt: "Mecânico inspecionando motor do carro"
+    },
     diferenciais: [
-        { icone: 'bx-time-five', titulo: 'Agilidade', texto: 'Entrega rápida e no prazo.' },
-        { icone: 'bx-shield-check', titulo: 'Qualidade', texto: 'Garantia de serviço bem feito.' },
-        { icone: 'bx-smile', titulo: 'Atendimento', texto: 'Foco total na sua satisfação.' }
+        { icone: "⚙️", titulo: "Peças Originais", descricao: "Trabalhamos apenas com peças de procedência certificada." },
+        { icone: "⏱️", titulo: "Agilidade", descricao: "Entrega no prazo combinado, sem surpresas." },
+        { icone: "🛡️", titulo: "Garantia", descricao: "Todos os serviços possuem garantia de 90 dias." }
     ],
-
-    // 5. SOBRE A EMPRESA (Deixe o array de paragrafos vazio para ocultar)
-    sobre: {
-        imagem: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        altImagem: 'Nossa equipe em reunião',
-        paragrafos: [
-            'Este é um texto de demonstração. Você pode adicionar quantos parágrafos quiser configurando o arquivo script.js.',
-            'Nossa missão é entregar valor com profissionalismo, transparência e responsabilidade para todos os nossos clientes.'
+    servicos: {
+        tituloSecao: "O que fazemos",
+        lista: [
+            { imagem: "", titulo: "Troca de Óleo", descricao: "Lubrificantes de alta performance.", alt: "Troca de óleo" },
+            { imagem: "", titulo: "Alinhamento", descricao: "Tecnologia 3D para maior precisão.", alt: "Alinhamento" },
+            { imagem: "", titulo: "Freios", descricao: "Revisão de pastilhas e discos.", alt: "Freios" }
         ]
     },
-
-    // 6. SERVIÇOS OU PRODUTOS (Deixe o array vazio [] para ocultar)
-    servicosSubtitle: 'Conheça o que temos de melhor para você.',
-    servicos: [
-        { icone: 'bx-check-circle', titulo: 'Serviço Exemplo 1', texto: 'Descrição breve do primeiro serviço prestado pela sua empresa.' },
-        { icone: 'bx-check-circle', titulo: 'Serviço Exemplo 2', texto: 'Descrição breve do segundo serviço prestado pela sua empresa.' },
-        { icone: 'bx-check-circle', titulo: 'Serviço Exemplo 3', texto: 'Descrição breve do terceiro serviço prestado pela sua empresa.' }
+    avaliacoes: [
+        { nome: "Carlos Silva", texto: "Excelente atendimento, resolveram meu problema no mesmo dia!" },
+        // Deixe a lista vazia [] para ocultar a seção de avaliações inteira
     ],
-
-    // 7. GALERIA DE FOTOS (Deixe o array vazio [] para ocultar)
-    galeria: [
-        { url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80', alt: 'Foto do estabelecimento 1' },
-        { url: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80', alt: 'Foto do estabelecimento 2' },
-        { url: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80', alt: 'Foto do estabelecimento 3' }
-    ],
-
-    // 8. AVALIAÇÕES (Deixe o array vazio [] para ocultar)
-    // Exemplo: { nome: 'João', texto: 'Ótimo serviço', estrelas: 5 }
-    avaliacoes: [],
-
-    // 9. CHAMADA PARA AÇÃO FINAL (Deixe o titulo vazio '' para ocultar)
-    cta: {
-        titulo: 'Pronto para dar o próximo passo?',
-        subtitulo: 'Entre em contato agora mesmo e faça um orçamento sem compromisso.',
+    contato: {
+        whatsapp: "5511999999999", // Apenas números
+        telefone: "1133334444",     // Apenas números (opcional)
+        endereco: "Rua das Flores, 123 - Centro, São Paulo - SP",
+        mapaIframe: '<iframe src="https://www.google.com/maps/embed?pb=..." width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>', // Pode ser vazio
+        redes: {
+            instagram: "oficinapadraoouro", // Apenas o @ ou nome do usuário. Vazio oculta.
+            facebook: "" // Vazio oculta.
+        }
     }
 };
 
-/* =======================================================================
-   LÓGICA DE INJEÇÃO E PREVENÇÃO DE XSS (NÃO PRECISA ALTERAR NADA ABAIXO)
-   ======================================================================= */
+document.addEventListener('DOMContentLoaded', () => {
+    aplicarIdentidadeVisual();
+    aplicarSEO();
+    preencherTextosBase();
+    construirDiferenciais();
+    construirServicos();
+    construirAvaliacoes();
+    construirContatos();
+    configurarMenuMobile();
+    configurarFallbackImagens();
+});
 
-// Função auxiliar segura para criar elementos DOM (Evita uso de innerHTML / XSS)
-function createSafeElement(tag, classNames = '', textContent = '') {
-    const el = document.createElement(tag);
-    if (classNames) el.className = classNames;
-    if (textContent) el.textContent = textContent;
-    return el;
+// ==========================================
+// FUNÇÕES DE APLICAÇÃO SEGURA DE DADOS
+// ==========================================
+
+function aplicarIdentidadeVisual() {
+    const root = document.documentElement;
+    if (SITE_CONFIG.empresa.cores.primaria) root.style.setProperty('--primary-color', SITE_CONFIG.empresa.cores.primaria);
+    if (SITE_CONFIG.empresa.cores.secundaria) root.style.setProperty('--secondary-color', SITE_CONFIG.empresa.cores.secundaria);
+
+    const logoText = document.getElementById('logo-text');
+    const logoImg = document.getElementById('logo-img');
+
+    if (SITE_CONFIG.empresa.logoUrl && SITE_CONFIG.empresa.logoUrl.trim() !== "") {
+        logoImg.src = SITE_CONFIG.empresa.logoUrl;
+        logoImg.classList.remove('hidden');
+        logoText.classList.add('hidden');
+    } else {
+        logoText.textContent = SITE_CONFIG.empresa.nome;
+    }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Identidade Visual e SEO
-    document.documentElement.style.setProperty('--primary-color', SITE_CONFIG.tema.corPrincipal);
-    document.documentElement.style.setProperty('--primary-hover', SITE_CONFIG.tema.corHover);
-    
+function aplicarSEO() {
     document.title = SITE_CONFIG.empresa.nome;
-    document.getElementById('meta-description').content = SITE_CONFIG.seo.descricao;
-    document.getElementById('meta-og-title').content = SITE_CONFIG.empresa.nome;
-    document.getElementById('meta-og-description').content = SITE_CONFIG.seo.descricao;
-    if(SITE_CONFIG.seo.imagemCompartilhamento) {
-        document.getElementById('meta-og-image').content = SITE_CONFIG.seo.imagemCompartilhamento;
-    }
-
-    // 2. Informações Gerais
-    document.getElementById('logo-text').textContent = SITE_CONFIG.empresa.nome;
-    document.getElementById('footer-company').textContent = SITE_CONFIG.empresa.nome;
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
-
-    // 3. Hero Section
-    document.getElementById('hero-title').textContent = SITE_CONFIG.hero.titulo;
-    document.getElementById('hero-subtitle').textContent = SITE_CONFIG.hero.subtitulo;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogDesc = document.querySelector('meta[property="og:description"]');
     
-    const heroImg = document.getElementById('hero-img');
-    heroImg.src = SITE_CONFIG.hero.imagemDestaque;
-    heroImg.alt = SITE_CONFIG.hero.altImagemDestaque;
+    if(metaDesc && SITE_CONFIG.seo.metaDescription) metaDesc.content = SITE_CONFIG.seo.metaDescription;
+    if(ogTitle) ogTitle.content = SITE_CONFIG.empresa.nome;
+    if(ogDesc && SITE_CONFIG.seo.metaDescription) ogDesc.content = SITE_CONFIG.seo.metaDescription;
+}
 
-    document.getElementById('hero-btn-primary').textContent = SITE_CONFIG.hero.textoBotaoPrimario;
+function preencherTextosBase() {
+    safeSetText('hero-title', SITE_CONFIG.hero.titulo);
+    safeSetText('hero-subtitle', SITE_CONFIG.hero.subtitulo);
+    safeSetText('hero-cta', SITE_CONFIG.hero.textoBotao);
+    safeSetText('sobre-descricao', SITE_CONFIG.empresa.descricao);
+    safeSetText('servicos-titulo', SITE_CONFIG.servicos.tituloSecao);
+    safeSetText('footer-name', SITE_CONFIG.empresa.nome);
+    safeSetText('footer-year', new Date().getFullYear().toString());
+
+    // Imagem Sobre
+    const imgSobre = document.getElementById('sobre-img');
+    if (imgSobre && SITE_CONFIG.imagens.sobre) {
+        imgSobre.src = SITE_CONFIG.imagens.sobre;
+        imgSobre.alt = SITE_CONFIG.imagens.sobreAlt || "Imagem sobre a empresa";
+    } else if (imgSobre) {
+        imgSobre.parentElement.style.display = 'none';
+    }
+}
+
+function construirDiferenciais() {
+    const container = document.getElementById('diferenciais-grid');
+    const secao = document.getElementById('diferenciais');
     
-    const btnSecondary = document.getElementById('hero-btn-secondary');
-    if (SITE_CONFIG.hero.textoBotaoSecundario) {
-        btnSecondary.textContent = SITE_CONFIG.hero.textoBotaoSecundario;
-    } else {
-        btnSecondary.style.display = 'none';
+    if (!SITE_CONFIG.diferenciais || SITE_CONFIG.diferenciais.length === 0) {
+        secao.classList.add('hidden');
+        return;
     }
 
-    // 4. Diferenciais
-    const diffSection = document.getElementById('diferenciais');
-    const diffGrid = document.getElementById('diff-grid');
-    if (SITE_CONFIG.diferenciais && SITE_CONFIG.diferenciais.length > 0) {
-        SITE_CONFIG.diferenciais.forEach(diff => {
-            const card = createSafeElement('div', 'diff-card');
-            
-            const icon = createSafeElement('i', `bx ${diff.icone}`);
-            const textDiv = createSafeElement('div');
-            const h3 = createSafeElement('h3', '', diff.titulo);
-            const p = createSafeElement('p', '', diff.texto);
-            
-            textDiv.appendChild(h3);
-            textDiv.appendChild(p);
-            card.appendChild(icon);
-            card.appendChild(textDiv);
-            diffGrid.appendChild(card);
-        });
-    } else {
-        diffSection.style.display = 'none';
-    }
-
-    // 5. Sobre
-    const sobreSection = document.getElementById('sobre');
-    const navSobre = document.getElementById('nav-sobre');
-    if (SITE_CONFIG.sobre.paragrafos && SITE_CONFIG.sobre.paragrafos.length > 0) {
-        const aboutImg = document.getElementById('about-img');
-        aboutImg.src = SITE_CONFIG.sobre.imagem;
-        aboutImg.alt = SITE_CONFIG.sobre.altImagem;
-
-        const aboutContent = document.getElementById('about-content');
-        SITE_CONFIG.sobre.paragrafos.forEach(texto => {
-            aboutContent.appendChild(createSafeElement('p', '', texto));
-        });
-    } else {
-        sobreSection.style.display = 'none';
-        if(navSobre) navSobre.parentElement.style.display = 'none';
-    }
-
-    // 6. Serviços
-    const servicosSection = document.getElementById('servicos');
-    const navServicos = document.getElementById('nav-servicos');
-    if (SITE_CONFIG.servicos && SITE_CONFIG.servicos.length > 0) {
-        document.getElementById('servicos-subtitle').textContent = SITE_CONFIG.servicosSubtitle;
-        const servicesGrid = document.getElementById('services-grid');
+    SITE_CONFIG.diferenciais.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
         
-        SITE_CONFIG.servicos.forEach(serv => {
-            const card = createSafeElement('div', 'service-card');
-            const icon = createSafeElement('i', `bx ${serv.icone}`);
-            const h3 = createSafeElement('h3', '', serv.titulo);
-            const p = createSafeElement('p', '', serv.texto);
-            
-            card.appendChild(icon);
-            card.appendChild(h3);
-            card.appendChild(p);
-            servicesGrid.appendChild(card);
-        });
-    } else {
-        servicosSection.style.display = 'none';
-        if(navServicos) navServicos.parentElement.style.display = 'none';
-    }
+        const icone = document.createElement('div');
+        icone.className = 'card-icon';
+        icone.textContent = item.icone; // emojis ou texto
+        
+        const titulo = document.createElement('h3');
+        titulo.textContent = item.titulo;
+        
+        const desc = document.createElement('p');
+        desc.textContent = item.descricao;
 
-    // 7. Galeria
-    const galeriaSection = document.getElementById('galeria');
-    const navGaleria = document.getElementById('nav-galeria');
-    if (SITE_CONFIG.galeria && SITE_CONFIG.galeria.length > 0) {
-        const galleryGrid = document.getElementById('gallery-grid');
-        SITE_CONFIG.galeria.forEach(item => {
-            const img = createSafeElement('img');
-            img.src = item.url;
-            img.alt = item.alt;
-            img.loading = 'lazy';
-            galleryGrid.appendChild(img);
-        });
-    } else {
-        galeriaSection.style.display = 'none';
-        if(navGaleria) navGaleria.parentElement.style.display = 'none';
-    }
+        card.appendChild(icone);
+        card.appendChild(titulo);
+        card.appendChild(desc);
+        container.appendChild(card);
+    });
+}
 
-    // 8. Avaliações
-    const reviewsSection = document.getElementById('avaliacoes');
-    if (SITE_CONFIG.avaliacoes && SITE_CONFIG.avaliacoes.length > 0) {
-        const reviewsGrid = document.getElementById('reviews-grid');
-        SITE_CONFIG.avaliacoes.forEach(av => {
-            const card = createSafeElement('div', 'review-card');
-            const starsDiv = createSafeElement('div', 'review-stars');
-            
-            // Tratamento de estrelas seguro
-            for(let i=0; i<Math.min(av.estrelas, 5); i++) {
-                starsDiv.appendChild(createSafeElement('i', 'bx bxs-star'));
-            }
-
-            const pText = createSafeElement('p', 'review-text', `"${av.texto}"`);
-            const pAuthor = createSafeElement('p', 'review-author', `- ${av.nome}`);
-            
-            card.appendChild(starsDiv);
-            card.appendChild(pText);
-            card.appendChild(pAuthor);
-            reviewsGrid.appendChild(card);
-        });
-    } else {
-        reviewsSection.style.display = 'none';
-    }
-
-    // 9. CTA
-    const ctaSection = document.getElementById('cta-section');
-    if (SITE_CONFIG.cta && SITE_CONFIG.cta.titulo) {
-        document.getElementById('cta-title').textContent = SITE_CONFIG.cta.titulo;
-        document.getElementById('cta-subtitle').textContent = SITE_CONFIG.cta.subtitulo;
-    } else {
-        ctaSection.style.display = 'none';
-    }
-
-    // 10. Contato e Localização
-    const mapContainer = document.getElementById('map-container');
-    const contactInfoBox = document.getElementById('contact-info');
+function construirServicos() {
+    const container = document.getElementById('servicos-grid');
+    const secao = document.getElementById('servicos');
     
-    // Injeção de Iframe do Mapa (se houver)
-    if (SITE_CONFIG.empresa.linkMapsIframe) {
-        const iframe = document.createElement('iframe');
-        iframe.src = SITE_CONFIG.empresa.linkMapsIframe;
-        iframe.allowFullscreen = true;
-        iframe.loading = "lazy";
-        iframe.referrerPolicy = "no-referrer-when-downgrade";
-        mapContainer.appendChild(iframe);
-    } else {
-        mapContainer.style.display = 'none';
-        contactInfoBox.style.gridColumn = '1 / -1';
-        contactInfoBox.style.textAlign = 'center';
-        document.querySelector('.contact-list').style.display = 'inline-block';
-        document.querySelector('.contact-list').style.textAlign = 'left';
+    if (!SITE_CONFIG.servicos.lista || SITE_CONFIG.servicos.lista.length === 0) {
+        secao.classList.add('hidden');
+        return;
     }
 
-    // Textos de Contato (Ocultar li's se dados não existirem)
-    const setContactData = (idText, idLi, data) => {
-        const li = document.getElementById(idLi);
-        if(data) {
-            document.getElementById(idText).textContent = data;
-        } else {
-            if(li) li.style.display = 'none';
+    SITE_CONFIG.servicos.lista.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        
+        if (item.imagem) {
+            const img = document.createElement('img');
+            img.src = item.imagem;
+            img.alt = item.alt || item.titulo;
+            img.loading = "lazy";
+            card.appendChild(img);
         }
-    };
+        
+        const titulo = document.createElement('h3');
+        titulo.textContent = item.titulo;
+        
+        const desc = document.createElement('p');
+        desc.textContent = item.descricao;
 
-    setContactData('contact-address', 'li-address', SITE_CONFIG.empresa.endereco);
-    setContactData('contact-phone', 'li-phone', SITE_CONFIG.empresa.telefoneFixo);
-    setContactData('contact-hours', 'li-hours', SITE_CONFIG.empresa.horario);
-    setContactData('contact-wa-text', 'li-wa', SITE_CONFIG.empresa.whatsapp);
+        card.appendChild(titulo);
+        card.appendChild(desc);
+        container.appendChild(card);
+    });
+}
 
-    // Links de WhatsApp
-    if (SITE_CONFIG.empresa.whatsapp) {
-        const msgEncoded = encodeURIComponent(SITE_CONFIG.empresa.whatsappTextoApp);
-        const linkWa = `https://wa.me/${SITE_CONFIG.empresa.whatsapp}?text=${msgEncoded}`;
-        document.querySelectorAll('.wa-link').forEach(btn => btn.href = linkWa);
-    } else {
-        document.querySelectorAll('.wa-link').forEach(btn => btn.style.display = 'none');
-        document.getElementById('li-wa').style.display = 'none';
+function construirAvaliacoes() {
+    const container = document.getElementById('avaliacoes-grid');
+    const secao = document.getElementById('avaliacoes');
+    const navLink = document.getElementById('nav-avaliacoes');
+    
+    if (!SITE_CONFIG.avaliacoes || SITE_CONFIG.avaliacoes.length === 0) {
+        secao.classList.add('hidden');
+        if(navLink) navLink.parentElement.classList.add('hidden'); // Remove do menu
+        return;
+    }
+
+    SITE_CONFIG.avaliacoes.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        
+        const quote = document.createElement('p');
+        quote.textContent = `"${item.texto}"`;
+        quote.style.fontStyle = "italic";
+        
+        const autor = document.createElement('h4');
+        autor.textContent = `- ${item.nome}`;
+        autor.style.marginTop = "15px";
+
+        card.appendChild(quote);
+        card.appendChild(autor);
+        container.appendChild(card);
+    });
+}
+
+function construirContatos() {
+    const contactList = document.getElementById('contact-list');
+    const socialLinks = document.getElementById('social-links');
+    
+    // Contatos primários (WhatsApp, Telefone, Endereço)
+    if (SITE_CONFIG.contato.whatsapp) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `https://wa.me/${SITE_CONFIG.contato.whatsapp.replace(/\D/g, '')}`;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.textContent = `📱 WhatsApp: ${formatarTelefone(SITE_CONFIG.contato.whatsapp)}`;
+        li.appendChild(a);
+        contactList.appendChild(li);
+    }
+
+    if (SITE_CONFIG.contato.telefone) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `tel:+55${SITE_CONFIG.contato.telefone.replace(/\D/g, '')}`;
+        a.textContent = `📞 Telefone: ${formatarTelefone(SITE_CONFIG.contato.telefone)}`;
+        li.appendChild(a);
+        contactList.appendChild(li);
+    }
+
+    if (SITE_CONFIG.contato.endereco) {
+        const li = document.createElement('li');
+        li.textContent = `📍 ${SITE_CONFIG.contato.endereco}`;
+        contactList.appendChild(li);
     }
 
     // Redes Sociais
-    const socialLinks = document.getElementById('social-links');
-    if(SITE_CONFIG.empresa.instagram) {
-        const a = createSafeElement('a');
-        a.href = SITE_CONFIG.empresa.instagram;
+    if (SITE_CONFIG.contato.redes.instagram) {
+        const a = document.createElement('a');
+        a.href = `https://instagram.com/${SITE_CONFIG.contato.redes.instagram.replace('@', '')}`;
         a.target = "_blank";
         a.rel = "noopener noreferrer";
-        a.ariaLabel = "Instagram";
-        a.appendChild(createSafeElement('i', 'bx bxl-instagram'));
+        a.textContent = "Instagram";
         socialLinks.appendChild(a);
     }
-    if(SITE_CONFIG.empresa.facebook) {
-        const a = createSafeElement('a');
-        a.href = SITE_CONFIG.empresa.facebook;
+    if (SITE_CONFIG.contato.redes.facebook) {
+        const a = document.createElement('a');
+        a.href = `https://facebook.com/${SITE_CONFIG.contato.redes.facebook}`;
         a.target = "_blank";
         a.rel = "noopener noreferrer";
-        a.ariaLabel = "Facebook";
-        a.appendChild(createSafeElement('i', 'bx bxl-facebook-circle'));
+        a.textContent = "Facebook";
         socialLinks.appendChild(a);
     }
 
-    // 11. Menu Mobile e Acessibilidade
-    const menuToggle = document.getElementById('menu-toggle');
-    const navMenu = document.getElementById('nav-menu');
-    const menuIcon = menuToggle.querySelector('i');
+    // Horários
+    const hrContainer = document.getElementById('horarios-container');
+    if (SITE_CONFIG.empresa.horarioFuncionamento) {
+        document.getElementById('horarios-texto').textContent = SITE_CONFIG.empresa.horarioFuncionamento;
+    } else {
+        hrContainer.classList.add('hidden');
+    }
+
+    // Mapa
+    const mapaContainer = document.getElementById('mapa-container');
+    if (SITE_CONFIG.contato.mapaIframe && SITE_CONFIG.contato.mapaIframe.includes('<iframe')) {
+        const div = document.createElement('div');
+        div.className = 'iframe-container';
+        // Usamos innerHTML com cautela aqui, mas o dev é instruído a colar o iframe do Google.
+        div.innerHTML = SITE_CONFIG.contato.mapaIframe; 
+        mapaContainer.appendChild(div);
+    } else {
+        mapaContainer.classList.add('hidden');
+    }
+}
+
+// ==========================================
+// FUNÇÕES AUXILIARES E UTILITÁRIAS
+// ==========================================
+
+function safeSetText(id, text) {
+    const el = document.getElementById(id);
+    if (el && text) {
+        el.textContent = text;
+    }
+}
+
+function formatarTelefone(str) {
+    const numeros = str.replace(/\D/g, '');
+    if (numeros.length === 11) {
+        return `(${numeros.slice(0,2)}) ${numeros.slice(2,7)}-${numeros.slice(7)}`;
+    } else if (numeros.length === 10) {
+        return `(${numeros.slice(0,2)}) ${numeros.slice(2,6)}-${numeros.slice(6)}`;
+    }
+    return str;
+}
+
+// Tratamento de Imagens Quebradas (Fallback)
+function configurarFallbackImagens() {
+    const svgFallback = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" style="background:%23e0e0e0"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23888" font-family="sans-serif" font-size="16">Imagem indisponível</text></svg>';
     
-    function toggleMenu() {
-        const isActive = navMenu.classList.toggle('active');
-        menuToggle.setAttribute('aria-expanded', isActive);
-        navMenu.setAttribute('aria-hidden', !isActive);
-        
-        if(isActive) {
-            menuIcon.classList.replace('bx-menu', 'bx-x');
-        } else {
-            menuIcon.classList.replace('bx-x', 'bx-menu');
+    document.addEventListener('error', function(e) {
+        if (e.target.tagName.toLowerCase() === 'img') {
+            e.target.src = svgFallback;
+            e.target.alt = "Imagem não encontrada";
         }
+    }, true);
+}
+
+// Acessibilidade e Menu Mobile
+function configurarMenuMobile() {
+    const btn = document.getElementById('menu-toggle');
+    const menu = document.getElementById('main-menu');
+    const links = menu.querySelectorAll('a');
+
+    function toggleMenu() {
+        const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', !isExpanded);
+        menu.setAttribute('aria-hidden', isExpanded);
     }
 
-    menuToggle.addEventListener('click', toggleMenu);
+    btn.addEventListener('click', toggleMenu);
 
-    document.querySelectorAll('.nav-link').forEach(link => {
+    // Fechar ao clicar em um link (mobile)
+    links.forEach(link => {
         link.addEventListener('click', () => {
-            if(navMenu.classList.contains('active')) {
-                toggleMenu();
+            if (window.innerWidth < 768) {
+                btn.setAttribute('aria-expanded', 'false');
+                menu.setAttribute('aria-hidden', 'true');
             }
         });
     });
-});
+
+    // Fechar ao pressionar ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+            toggleMenu();
+            btn.focus(); // Retorna o foco para o botão
+        }
+    });
+}

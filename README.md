@@ -1,22 +1,28 @@
-# Landing Page Curinga B2B (Segura, Responsiva e Otimizada)
+# LandingPage-Curinga
 
-Este projeto é um framework minimalista de Landing Page para pequenos negócios, otimizado para segurança (prevenção de XSS), acessibilidade, performance (sem dependências pesadas) e facilidade de manutenção.
+Template de Landing Page profissional em HTML, CSS e JavaScript puro (Vanilla), otimizado para pequenos e médios negócios locais (Clínicas, Oficinas, Consultorias, Comércio em geral). 
 
-## Como configurar para um novo cliente?
-Toda a configuração é centralizada no arquivo `script.js`. **Você não precisa abrir os arquivos HTML e CSS.**
+**Características da versão atualizada:**
+- 🛡️ **Seguro:** Sem dependências externas e sem uso de `innerHTML` para inserção de conteúdo sensível.
+- 📱 **Responsivo & Acessível:** Funciona em qualquer tela, com navegação por teclado testada e suporte a leitores de tela (`aria-attributes`).
+- ⚡ **Performance e SEO:** Estrutura otimizada, tags semânticas e carregamento rápido.
+- ⚙️ **Configuração Centralizada:** Para personalizar todo o site (cores, textos, logos, telefones), basta editar um único objeto `SITE_CONFIG` no topo do `script.js`.
 
-1. Abra o arquivo `script.js`.
-2. Localize o objeto `SITE_CONFIG`.
-3. Substitua os dados de `[DEMONSTRAÇÃO]` pelos dados reais do cliente.
+## Como utilizar
 
-### Destaques do Sistema Automático:
-* **Ocultação Inteligente:** Se o seu cliente não tem telefone fixo, endereço físico ou mapa, basta deixar a propriedade vazia `''` no JS. A página oculta o campo automaticamente, sem quebrar o layout.
-* **Sem Depoimentos Falsos:** O array de avaliações `avaliacoes: []` já começa vazio. O bloco inteiro se oculta sozinho. Adicione itens apenas se existirem dados reais.
-* **Prevenção de XSS:** A injeção de dados no DOM é feita via `createElement` e `textContent`. Nenhum script malicioso digitado nos textos será interpretado pelo navegador.
-* **Acessibilidade e SEO:** Metadados gerados dinamicamente e menu mobile otimizado com `aria-expanded` para leitores de tela.
+1. Baixe os arquivos (`index.html`, `style.css` e `script.js`).
+2. Abra o arquivo `script.js` no seu editor de texto.
+3. Edite as informações dentro do objeto `SITE_CONFIG`.
 
-## Como usar imagens locais?
-Se você não quiser usar URLs de imagens (como Unsplash), crie uma pasta chamada `img` junto com o arquivo `index.html`. 
-No `script.js`, altere as propriedades apontando para o caminho relativo:
-```javascript
-imagemDestaque: './img/hero.jpg',
+### Exemplo de Ocultação Automática
+A lógica de renderização é inteligente. Se o cliente não possuir uma informação, basta deixar a string vazia (`""`) ou remover a chave do objeto.
+- Não tem Instagram? Defina `instagram: ""` e o botão desaparece.
+- Não tem Avaliações ainda? Defina `avaliacoes: []` e a seção correspondente sumirá do layout e do menu principal automaticamente, sem deixar buracos ou links quebrados.
+
+### Segurança e SEO
+- Os links de telefone e WhatsApp são sanitizados automaticamente (remover espaços, traços).
+- Se uma URL de imagem configurada estiver incorreta ou sair do ar, o script injeta instantaneamente um *placeholder SVG*, impedindo que o layout quebre.
+- Altere os atributos estáticos nas tags `<meta>` do `index.html` para as redes sociais indexarem corretamente o projeto na primeira vez que for publicado, o JS fará o restante da atualização de títulos dinamicamente.
+
+## Implantação
+Sendo HTML/CSS/JS estático puro, você pode hospedar gratuitamente em plataformas como GitHub Pages, Vercel, Netlify ou qualquer hospedagem tradicional (cPanel, HostGator, Locaweb).
