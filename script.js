@@ -1,9 +1,43 @@
 const SITE_CONFIG = {
-    empresa: { nome: "", logoUrl: "", corPrimaria: "", corSecundaria: "", urlSite: "" },
-    seo: { titulo: "", descricao: "", imagemOg: "" },
-    hero: { titulo: "", texto: "", imagemUrl: "", textoBotao: "" },
-    contato: { whatsapp: "", telefone: "", endereco: "", redesSociais: [], mapaUrl: "" },
-    servicos: [], diferenciais: [], galeria: [], avaliacoes: []
+    empresa: {
+        nome: "POP Papelaria & Cafeteria",
+        logoUrl: "",
+        // Paleta provisória para a demonstração; confirmar com a identidade visual oficial.
+        corPrimaria: "#5A3E36",
+        corSecundaria: "#F6F0E8",
+        urlSite: ""
+    },
+    seo: {
+        titulo: "POP | Papelaria e Cafeteria em Osvaldo Cruz",
+        descricao: "Papelaria e cafeteria em Osvaldo Cruz. Conheça a POP e fale com nossa equipe.",
+        imagemOg: ""
+    },
+    hero: {
+        titulo: "Papelaria e cafeteria em um só lugar",
+        texto: "Na POP, você encontra papelaria e cafeteria no centro de Osvaldo Cruz. Entre em contato para conhecer melhor a loja.",
+        imagemUrl: "",
+        textoBotao: "Fale com a POP"
+    },
+    contato: {
+        whatsapp: "",
+        whatsappUrl: "https://bit.ly/Fale-com-um_vendedor",
+        telefone: "(18) 3528-1991",
+        endereco: "Rua Hans Klotz, 538 - Centro, Osvaldo Cruz - SP",
+        redesSociais: [
+            { nome: "Instagram", url: "https://www.instagram.com/pop.papelariacafeteria/" }
+        ],
+        mapaUrl: ""
+    },
+    servicos: [
+        { titulo: "Papelaria", descricao: "Uma opção prática para suas necessidades de papelaria no dia a dia." },
+        { titulo: "Cafeteria", descricao: "Uma cafeteria integrada à loja para completar sua visita à POP." }
+    ],
+    diferenciais: [
+        { titulo: "Papelaria + cafeteria", descricao: "Duas experiências reunidas em um só lugar." },
+        { titulo: "No centro de Osvaldo Cruz", descricao: "Estamos na Rua Hans Klotz, 538." }
+    ],
+    galeria: [],
+    avaliacoes: []
 };
 
 const FALLBACK_IMAGE = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500"><rect width="800" height="500" fill="#f1f3f5"/><path d="M300 310l90-100 70 75 45-50 95 105H200z" fill="#c5ccd3"/><circle cx="330" cy="155" r="35" fill="#c5ccd3"/><text x="400" y="390" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" fill="#68727d">Imagem indisponível</text></svg>')}`;
@@ -73,9 +107,10 @@ function inicializarSite() {
     if (heroImageContainer) heroImageContainer.style.display = isSafeUrl(SITE_CONFIG.hero.imagemUrl) ? "" : "none";
 
     const heroCta = document.getElementById("hero-cta");
-    if (heroCta && isValidPhoneNumber(SITE_CONFIG.contato.whatsapp)) {
+    const whatsappUrl = isHttpsUrl(SITE_CONFIG.contato.whatsappUrl) ? SITE_CONFIG.contato.whatsappUrl : "";
+    if (heroCta && (whatsappUrl || isValidPhoneNumber(SITE_CONFIG.contato.whatsapp))) {
         heroCta.textContent = SITE_CONFIG.hero.textoBotao || "Fale conosco";
-        heroCta.href = `https://wa.me/${getPhoneDigits(SITE_CONFIG.contato.whatsapp)}`;
+        heroCta.href = whatsappUrl || `https://wa.me/${getPhoneDigits(SITE_CONFIG.contato.whatsapp)}`;
         heroCta.style.display = "inline-block";
     } else if (heroCta) {
         heroCta.style.display = "none";
@@ -205,9 +240,10 @@ function configurarContato() {
     const whatsappContainer = document.getElementById("whatsapp-container");
     const whatsappLink = document.getElementById("whatsapp-link");
     if (whatsappContainer && whatsappLink) {
-        if (isValidPhoneNumber(contact.whatsapp)) {
-            whatsappLink.textContent = contact.whatsapp;
-            whatsappLink.href = `https://wa.me/${getPhoneDigits(contact.whatsapp)}`;
+        const whatsappUrl = isHttpsUrl(contact.whatsappUrl) ? contact.whatsappUrl : "";
+        if (whatsappUrl || isValidPhoneNumber(contact.whatsapp)) {
+            whatsappLink.textContent = whatsappUrl ? "Fale com um vendedor" : contact.whatsapp;
+            whatsappLink.href = whatsappUrl || `https://wa.me/${getPhoneDigits(contact.whatsapp)}`;
             whatsappContainer.style.display = "";
         } else {
             whatsappLink.removeAttribute("href"); whatsappLink.textContent = ""; whatsappContainer.style.display = "none";
@@ -245,7 +281,8 @@ function configurarContato() {
     }
 
     const hasContact = Boolean(address || isValidPhoneNumber(contact.telefone) ||
-        isValidPhoneNumber(contact.whatsapp) || (socialContainer && socialContainer.childElementCount) ||
+        isValidPhoneNumber(contact.whatsapp) || isHttpsUrl(contact.whatsappUrl) ||
+        (socialContainer && socialContainer.childElementCount) ||
         (mapContainer && mapContainer.childElementCount));
     const section = document.getElementById("contato");
     if (section) section.style.display = hasContact ? "" : "none";
