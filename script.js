@@ -1,343 +1,279 @@
 const SITE_CONFIG = {
-    empresa: {
-        nome: "Empresa Demo", 
-        logoUrl: "", 
-        corPrimaria: "#0056b3",
-        corSecundaria: "#f8f9fa",
-        urlSite: "https://meusite.com" 
-    },
-    seo: {
-        titulo: "Empresa Demo - Excelência em Serviços",
-        descricao: "Soluções completas para você.",
-        imagemOg: "" 
-    },
-    hero: {
-        titulo: "Bem-vindo à Empresa Demo",
-        texto: "Soluções rápidas e eficientes para o seu negócio.",
-        imagemUrl: "", 
-        textoBotao: "Fale Conosco"
-    },
-    contato: {
-        whatsapp: "5511999999999", 
-        telefone: "1133333333", 
-        endereco: "Rua Demo, 123 - Centro", 
-        redesSociais: [
-            { nome: "Instagram", url: "https://instagram.com" }
-        ], 
-        mapaUrl: "" 
-    },
-    servicos: [
-        { titulo: "Serviço A", descricao: "Descrição do serviço A." }
-    ], 
-    diferenciais: [
-        { titulo: "Qualidade", descricao: "Nossos padrões são altos." }
-    ], 
-    galeria: [], 
-    avaliacoes: [] 
+    empresa: { nome: "", logoUrl: "", corPrimaria: "", corSecundaria: "", urlSite: "" },
+    seo: { titulo: "", descricao: "", imagemOg: "" },
+    hero: { titulo: "", texto: "", imagemUrl: "", textoBotao: "" },
+    contato: { whatsapp: "", telefone: "", endereco: "", redesSociais: [], mapaUrl: "" },
+    servicos: [], diferenciais: [], galeria: [], avaliacoes: []
 };
+
+const FALLBACK_IMAGE = \`data:image/svg+xml;charset=UTF-8,\${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500"><rect width="800" height="500" fill="#f1f3f5"/><path d="M300 310l90-100 70 75 45-50 95 105H200z" fill="#c5ccd3"/><circle cx="330" cy="155" r="35" fill="#c5ccd3"/><text x="400" y="390" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" fill="#68727d">Imagem indisponível</text></svg>')}\`;
 
 document.addEventListener("DOMContentLoaded", () => {
     inicializarSite();
     configurarMenuMobile();
 });
 
-/* =========================================================================
-   FUNÇÕES DE VALIDAÇÃO (Protocol-Relative / Injeções)
-   ========================================================================= */
-function isSafeUrl(url) {
-    if (!url || typeof url !== 'string') return false;
-    
-    // Bloqueia ataques protocol-relative
-    if (url.startsWith('//')) return false;
-
+function isHttpsUrl(url) {
+    if (typeof url !== "string" || !url.trim() || url.trim().startsWith("//")) return false;
     try {
-        const parsed = new URL(url);
-        // Exige protocolo seguro em URLs absolutas
-        return parsed.protocol === 'https:';
-    } catch (e) {
-        // Se cair aqui, é um caminho relativo.
-        // Bloqueia tentativas de injetar protocolos perigosos como 'javascript:' ou 'data:'
-        if (url.includes(':')) return false;
-        
-        // Permite caminhos relativos legítimos iniciados em '/' ou alphanumerics
-        return true; 
-    }
+        const parsed = new URL(url.trim());
+        return parsed.protocol === "https:" && !parsed.username && !parsed.password;
+    } catch (error) { return false; }
+}
+
+function isSafeUrl(url) {
+    if (typeof url !== "string" || !url.trim()) return false;
+    const value = url.trim();
+    if (value.startsWith("//") || value.startsWith("\\\\")) return false;
+    if (/^[a-z][a-z\d+.-]*:/i.test(value)) return isHttpsUrl(value);
+    try {
+        const parsed = new URL(value, window.location.href);
+        return parsed.origin === window.location.origin &&
+            (parsed.protocol === "https:" || parsed.protocol === "http:");
+    } catch (error) { return false; }
 }
 
 function isValidGoogleMapsUrl(url) {
-    if (!url || typeof url !== 'string') return false;
-    if (url.startsWith('//')) return false;
-
+    if (!isHttpsUrl(url)) return false;
     try {
-        const parsed = new URL(url);
-        const isHttps = parsed.protocol === 'https:';
-        const isGoogle = parsed.hostname.includes('google.com');
-        const isEmbed = parsed.pathname.startsWith('/maps/embed');
-        return isHttps && isGoogle && isEmbed;
-    } catch (e) {
-        return false;
-    }
+        const parsed = new URL(url.trim());
+        const allowedHosts = ["google.com", "www.google.com", "maps.google.com"];
+        return allowedHosts.includes(parsed.hostname) && parsed.port === "" &&
+            (parsed.pathname === "/maps/embed" || parsed.pathname.startsWith("/maps/embed/"));
+    } catch (error) { return false; }
 }
 
 function isValidPhoneNumber(phone) {
-    if (!phone || typeof phone !== 'string') return false;
-    const digits = phone.replace(/\D/g, '');
+    if (typeof phone !== "string") return false;
+    const digits = phone.replace(/\D/g, "");
     return digits.length >= 8 && digits.length <= 15;
 }
+function getPhoneDigits(phone) { return phone.replace(/\D/g, ""); }
 
-function getPhoneDigits(phone) {
-    return phone.replace(/\D/g, '');
-}
-
-/* =========================================================================
-   INICIALIZAÇÃO DO DOM
-   ========================================================================= */
 function inicializarSite() {
-    if (SITE_CONFIG.empresa.corPrimaria) {
-        document.documentElement.style.setProperty('--primary-color', SITE_CONFIG.empresa.corPrimaria);
-    }
-    if (SITE_CONFIG.empresa.corSecundaria) {
-        document.documentElement.style.setProperty('--secondary-color', SITE_CONFIG.empresa.corSecundaria);
-    }
+    if (SITE_CONFIG.empresa.corPrimaria) document.documentElement.style.setProperty("--primary-color", SITE_CONFIG.empresa.corPrimaria);
+    if (SITE_CONFIG.empresa.corSecundaria) document.documentElement.style.setProperty("--secondary-color", SITE_CONFIG.empresa.corSecundaria);
 
-    safeSetText('meta-title', SITE_CONFIG.seo.titulo || SITE_CONFIG.empresa.nome);
-    safeSetAttribute('meta-description', 'content', SITE_CONFIG.seo.descricao);
-    safeSetAttribute('og-title', 'content', SITE_CONFIG.seo.titulo || SITE_CONFIG.empresa.nome);
-    safeSetAttribute('og-description', 'content', SITE_CONFIG.seo.descricao);
-    
-    if (isSafeUrl(SITE_CONFIG.seo.imagemOg)) safeSetAttribute('og-image', 'content', SITE_CONFIG.seo.imagemOg);
-    if (isSafeUrl(SITE_CONFIG.empresa.urlSite)) safeSetAttribute('og-url', 'content', SITE_CONFIG.empresa.urlSite);
+    const pageTitle = SITE_CONFIG.seo.titulo || SITE_CONFIG.empresa.nome || "Sua empresa";
+    document.title = pageTitle;
+    safeSetText("meta-title", pageTitle);
+    safeSetAttribute("meta-description", "content", SITE_CONFIG.seo.descricao);
+    safeSetAttribute("og-title", "content", pageTitle);
+    safeSetAttribute("og-description", "content", SITE_CONFIG.seo.descricao);
+    safeSetAttribute("og-image", "content", isHttpsUrl(SITE_CONFIG.seo.imagemOg) ? SITE_CONFIG.seo.imagemOg : "");
+    safeSetAttribute("og-url", "content", isHttpsUrl(SITE_CONFIG.empresa.urlSite) ? SITE_CONFIG.empresa.urlSite : "");
 
-    safeSetText('company-name', SITE_CONFIG.empresa.nome);
-    if (isSafeUrl(SITE_CONFIG.empresa.logoUrl)) safeSetImage('header-logo', SITE_CONFIG.empresa.logoUrl);
+    safeSetText("company-name", SITE_CONFIG.empresa.nome);
+    safeSetImage("header-logo", isSafeUrl(SITE_CONFIG.empresa.logoUrl) ? SITE_CONFIG.empresa.logoUrl : "");
+    safeSetText("hero-title", SITE_CONFIG.hero.titulo);
+    safeSetText("hero-text", SITE_CONFIG.hero.texto);
 
-    safeSetText('hero-title', SITE_CONFIG.hero.titulo);
-    safeSetText('hero-text', SITE_CONFIG.hero.texto);
-    if (isSafeUrl(SITE_CONFIG.hero.imagemUrl)) safeSetImage('hero-img', SITE_CONFIG.hero.imagemUrl);
-    
-    const heroCta = document.getElementById('hero-cta');
+    const heroImageContainer = document.querySelector(".hero-image-container");
+    safeSetImage("hero-img", isSafeUrl(SITE_CONFIG.hero.imagemUrl) ? SITE_CONFIG.hero.imagemUrl : "");
+    if (heroImageContainer) heroImageContainer.style.display = isSafeUrl(SITE_CONFIG.hero.imagemUrl) ? "" : "none";
+
+    const heroCta = document.getElementById("hero-cta");
     if (heroCta && isValidPhoneNumber(SITE_CONFIG.contato.whatsapp)) {
-        heroCta.textContent = SITE_CONFIG.hero.textoBotao || "Fale Conosco";
-        heroCta.href = `https://wa.me/${getPhoneDigits(SITE_CONFIG.contato.whatsapp)}`;
-        heroCta.style.display = 'inline-block';
+        heroCta.textContent = SITE_CONFIG.hero.textoBotao || "Fale conosco";
+        heroCta.href = \`https://wa.me/\${getPhoneDigits(SITE_CONFIG.contato.whatsapp)}\`;
+        heroCta.style.display = "inline-block";
+    } else if (heroCta) {
+        heroCta.style.display = "none";
+        heroCta.removeAttribute("href");
     }
 
-    // Grid e classes CSS injetadas de forma correspondente
-    renderizarGrid('servicos-grid', SITE_CONFIG.servicos, buildCardTexto, 'service-card');
-    alternarVisibilidadeSecao('servicos', SITE_CONFIG.servicos);
-
-    renderizarGrid('diferenciais-grid', SITE_CONFIG.diferenciais, buildCardTexto, 'diff-card');
-    alternarVisibilidadeSecao('diferenciais', SITE_CONFIG.diferenciais);
-
-    renderizarGrid('galeria-grid', SITE_CONFIG.galeria, buildCardImagem, 'gallery-card');
-    alternarVisibilidadeSecao('galeria', SITE_CONFIG.galeria);
-
-    renderizarGrid('avaliacoes-grid', SITE_CONFIG.avaliacoes, buildCardAvaliacao, 'review-card');
-    alternarVisibilidadeSecao('avaliacoes', SITE_CONFIG.avaliacoes);
+    const services = renderizarGrid("servicos-grid", SITE_CONFIG.servicos, buildCardTexto, "service-card");
+    alternarVisibilidadeSecao("servicos", services > 0);
+    const differences = renderizarGrid("diferenciais-grid", SITE_CONFIG.diferenciais, buildCardTexto, "diff-card");
+    alternarVisibilidadeSecao("diferenciais", differences > 0);
+    const gallery = renderizarGrid("galeria-grid", SITE_CONFIG.galeria, buildCardImagem, "gallery-card");
+    alternarVisibilidadeSecao("galeria", gallery > 0);
+    const reviews = renderizarGrid("avaliacoes-grid", SITE_CONFIG.avaliacoes, buildCardAvaliacao, "review-card");
+    alternarVisibilidadeSecao("avaliacoes", reviews > 0);
 
     configurarContato();
-    
-    if (SITE_CONFIG.empresa.nome) {
-        safeSetText('footer-text', `© ${new Date().getFullYear()} ${SITE_CONFIG.empresa.nome}. Todos os direitos reservados.`);
-    }
+    safeSetText("footer-text", SITE_CONFIG.empresa.nome
+        ? \`© \${new Date().getFullYear()} \${SITE_CONFIG.empresa.nome}. Todos os direitos reservados.\`
+        : "");
+    atualizarLinksMenu();
 }
 
-/* =========================================================================
-   FUNÇÕES AUXILIARES (Sem innerHTML)
-   ========================================================================= */
-function safeSetText(id, text) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (text) {
-        el.textContent = text;
-        el.style.display = '';
-    } else {
-        el.style.display = 'none';
-    }
+function safeSetText(id, value) {
+    const element = document.getElementById(id);
+    if (!element) return;
+    const hasText = typeof value === "string" && value.trim();
+    element.textContent = hasText ? value : "";
+    element.style.display = hasText ? "" : "none";
 }
-
-function safeSetAttribute(id, attr, value) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (value) {
-        el.setAttribute(attr, value);
-    } else {
-        el.removeAttribute(attr);
-    }
+function safeSetAttribute(id, attribute, value) {
+    const element = document.getElementById(id);
+    if (!element) return;
+    if (typeof value === "string" && value.trim()) element.setAttribute(attribute, value);
+    else element.removeAttribute(attribute);
 }
-
+function applyImageFallback(event) {
+    const image = event.currentTarget;
+    image.onerror = null;
+    image.src = FALLBACK_IMAGE;
+    image.classList.add("image-fallback");
+}
 function safeSetImage(id, url) {
-    const el = document.getElementById(id);
-    if (!el) return;
+    const image = document.getElementById(id);
+    if (!image) return;
     if (url) {
-        el.src = url;
-        el.style.display = 'block';
+        image.onerror = applyImageFallback;
+        image.style.display = "block";
+        image.src = url;
     } else {
-        el.style.display = 'none';
+        image.removeAttribute("src");
+        image.style.display = "none";
     }
 }
-
-// NOVO: Adicionado cardClass para inserir classes como service-card, diff-card, etc.
 function renderizarGrid(id, items, buildFn, cardClass) {
     const grid = document.getElementById(id);
-    if (!grid) return;
-    
-    grid.replaceChildren(); // Seguro em vez de innerHTML = ''
-    
-    if (Array.isArray(items) && items.length > 0) {
-        items.forEach(item => {
-            const card = document.createElement('div');
-            // Anexa a classe base 'card' E a classe específica de estilo
-            card.className = `card ${cardClass}`;
-            buildFn(item, card);
-            grid.appendChild(card);
-        });
-    }
+    if (!grid) return 0;
+    grid.replaceChildren();
+    if (!Array.isArray(items)) return 0;
+    let count = 0;
+    items.forEach(item => {
+        if (!item || typeof item !== "object") return;
+        const card = document.createElement("div");
+        card.className = \`card \${cardClass}\`;
+        if (buildFn(item, card)) { grid.appendChild(card); count++; }
+    });
+    return count;
 }
-
-function alternarVisibilidadeSecao(sectionId, dataArray) {
-    const section = document.getElementById(sectionId);
-    if (section) {
-        section.style.display = (Array.isArray(dataArray) && dataArray.length > 0) ? 'block' : 'none';
-    }
+function alternarVisibilidadeSecao(id, visible) {
+    const section = document.getElementById(id);
+    if (section) section.style.display = visible ? "" : "none";
 }
-
 function buildCardTexto(item, card) {
-    const h3 = document.createElement('h3');
-    h3.textContent = item.titulo;
-    const p = document.createElement('p');
-    p.textContent = item.descricao;
-    card.appendChild(h3);
-    card.appendChild(p);
+    const title = typeof item.titulo === "string" ? item.titulo.trim() : "";
+    const description = typeof item.descricao === "string" ? item.descricao.trim() : "";
+    if (!title && !description) return false;
+    if (title) { const h3 = document.createElement("h3"); h3.textContent = title; card.appendChild(h3); }
+    if (description) { const p = document.createElement("p"); p.textContent = description; card.appendChild(p); }
+    return true;
 }
-
 function buildCardImagem(item, card) {
-    if (isSafeUrl(item.url)) {
-        const img = document.createElement('img');
-        img.alt = item.alt || 'Imagem da galeria';
-        img.loading = 'lazy'; 
-        img.src = item.url;
-        card.appendChild(img);
-    }
+    if (!isSafeUrl(item.url)) return false;
+    const img = document.createElement("img");
+    img.alt = typeof item.alt === "string" && item.alt.trim() ? item.alt : "Imagem da galeria";
+    img.loading = "lazy";
+    img.decoding = "async";
+    img.onerror = applyImageFallback;
+    img.src = item.url;
+    card.appendChild(img);
+    return true;
 }
-
 function buildCardAvaliacao(item, card) {
-    const p = document.createElement('p');
-    const em = document.createElement('em');
-    em.textContent = `"${item.texto}"`;
+    const review = typeof item.texto === "string" ? item.texto.trim() : "";
+    const author = typeof item.nome === "string" ? item.nome.trim() : "";
+    if (!review || !author) return false;
+    const p = document.createElement("p");
+    const em = document.createElement("em");
+    em.textContent = \`"\${review}"\`;
     p.appendChild(em);
-    
-    const strong = document.createElement('strong');
-    strong.textContent = `- ${item.nome}`;
-    
-    card.appendChild(p);
-    card.appendChild(strong);
+    const strong = document.createElement("strong");
+    strong.textContent = author;
+    card.append(p, strong);
+    return true;
 }
 
-/* =========================================================================
-   CONTATO & MENU
-   ========================================================================= */
 function configurarContato() {
-    const enderecoContainer = document.getElementById('endereco-container');
-    const enderecoText = document.getElementById('endereco-text');
-    if (enderecoContainer && enderecoText) {
-        if (SITE_CONFIG.contato.endereco) {
-            enderecoText.textContent = SITE_CONFIG.contato.endereco;
-            enderecoContainer.style.display = '';
+    const contact = SITE_CONFIG.contato;
+    const addressContainer = document.getElementById("endereco-container");
+    const addressText = document.getElementById("endereco-text");
+    const address = typeof contact.endereco === "string" ? contact.endereco.trim() : "";
+    if (addressContainer && addressText) {
+        addressText.textContent = address;
+        addressContainer.style.display = address ? "" : "none";
+    }
+
+    const phoneContainer = document.getElementById("telefone-container");
+    const phoneLink = document.getElementById("telefone-link");
+    if (phoneContainer && phoneLink) {
+        if (isValidPhoneNumber(contact.telefone)) {
+            phoneLink.textContent = contact.telefone;
+            phoneLink.href = \`tel:\${getPhoneDigits(contact.telefone)}\`;
+            phoneContainer.style.display = "";
         } else {
-            enderecoContainer.style.display = 'none';
+            phoneLink.removeAttribute("href"); phoneLink.textContent = ""; phoneContainer.style.display = "none";
         }
     }
 
-    const telefoneContainer = document.getElementById('telefone-container');
-    const telefoneLink = document.getElementById('telefone-link');
-    if (telefoneContainer && telefoneLink) {
-        if (isValidPhoneNumber(SITE_CONFIG.contato.telefone)) {
-            telefoneLink.textContent = SITE_CONFIG.contato.telefone;
-            telefoneLink.href = `tel:${getPhoneDigits(SITE_CONFIG.contato.telefone)}`;
-            telefoneContainer.style.display = '';
-        } else {
-            telefoneContainer.style.display = 'none';
-        }
-    }
-
-    const whatsappContainer = document.getElementById('whatsapp-container');
-    const whatsappLink = document.getElementById('whatsapp-link');
+    const whatsappContainer = document.getElementById("whatsapp-container");
+    const whatsappLink = document.getElementById("whatsapp-link");
     if (whatsappContainer && whatsappLink) {
-        if (isValidPhoneNumber(SITE_CONFIG.contato.whatsapp)) {
-            whatsappLink.textContent = SITE_CONFIG.contato.whatsapp;
-            whatsappLink.href = `https://wa.me/${getPhoneDigits(SITE_CONFIG.contato.whatsapp)}`;
-            whatsappContainer.style.display = '';
+        if (isValidPhoneNumber(contact.whatsapp)) {
+            whatsappLink.textContent = contact.whatsapp;
+            whatsappLink.href = \`https://wa.me/\${getPhoneDigits(contact.whatsapp)}\`;
+            whatsappContainer.style.display = "";
         } else {
-            whatsappContainer.style.display = 'none';
+            whatsappLink.removeAttribute("href"); whatsappLink.textContent = ""; whatsappContainer.style.display = "none";
         }
     }
 
-    const redesContainer = document.getElementById('redes-sociais-container');
-    if (redesContainer) {
-        redesContainer.replaceChildren();
-        if (Array.isArray(SITE_CONFIG.contato.redesSociais)) {
-            SITE_CONFIG.contato.redesSociais.forEach(rede => {
-                if (isSafeUrl(rede.url)) {
-                    const a = document.createElement('a');
-                    a.href = rede.url;
-                    a.textContent = rede.nome;
-                    a.target = '_blank';
-                    a.rel = 'noopener noreferrer';
-                    redesContainer.appendChild(a);
-                }
-            });
-        }
+    const socialContainer = document.getElementById("redes-sociais-container");
+    if (socialContainer) {
+        socialContainer.replaceChildren();
+        if (Array.isArray(contact.redesSociais)) contact.redesSociais.forEach(social => {
+            if (!social || !isHttpsUrl(social.url)) return;
+            const link = document.createElement("a");
+            link.href = social.url;
+            link.textContent = typeof social.nome === "string" && social.nome.trim() ? social.nome : "Rede social";
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            socialContainer.appendChild(link);
+        });
+        socialContainer.style.display = socialContainer.childElementCount ? "" : "none";
     }
 
-    const mapaContainer = document.getElementById('mapa-container');
-    if (mapaContainer) {
-        mapaContainer.replaceChildren();
-        if (isValidGoogleMapsUrl(SITE_CONFIG.contato.mapaUrl)) {
-            const iframe = document.createElement('iframe');
-            iframe.src = SITE_CONFIG.contato.mapaUrl;
+    const mapContainer = document.getElementById("mapa-container");
+    if (mapContainer) {
+        mapContainer.replaceChildren();
+        if (isValidGoogleMapsUrl(contact.mapaUrl)) {
+            const iframe = document.createElement("iframe");
+            iframe.src = contact.mapaUrl;
+            iframe.title = "Localização da empresa no Google Maps";
+            iframe.loading = "lazy";
+            iframe.referrerPolicy = "no-referrer-when-downgrade";
             iframe.allowFullscreen = true;
-            iframe.loading = 'lazy';
-            mapaContainer.appendChild(iframe);
-            mapaContainer.style.display = '';
-        } else {
-            mapaContainer.style.display = 'none';
-        }
+            mapContainer.appendChild(iframe);
+            mapContainer.style.display = "";
+        } else mapContainer.style.display = "none";
     }
+
+    const hasContact = Boolean(address || isValidPhoneNumber(contact.telefone) ||
+        isValidPhoneNumber(contact.whatsapp) || (socialContainer && socialContainer.childElementCount) ||
+        (mapContainer && mapContainer.childElementCount));
+    const section = document.getElementById("contato");
+    if (section) section.style.display = hasContact ? "" : "none";
 }
 
+function atualizarLinksMenu() {
+    document.querySelectorAll("#main-menu a[href^='#']").forEach(link => {
+        const target = document.getElementById(link.getAttribute("href").slice(1));
+        const item = link.closest("li");
+        if (item) item.hidden = !target || target.style.display === "none";
+    });
+}
 function configurarMenuMobile() {
-    const btn = document.getElementById('mobile-menu-btn');
-    const menu = document.getElementById('main-menu');
-    const links = document.querySelectorAll('.menu-list a');
-
-    if (!btn || !menu) return;
-
-    const toggleMenu = () => {
-        const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', !isExpanded);
-        btn.setAttribute('aria-label', !isExpanded ? 'Fechar menu' : 'Abrir menu');
-        menu.classList.toggle('active');
+    const button = document.getElementById("mobile-menu-btn");
+    const menu = document.getElementById("main-menu");
+    if (!button || !menu) return;
+    const links = menu.querySelectorAll(".menu-list a");
+    const setState = open => {
+        button.setAttribute("aria-expanded", String(open));
+        button.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+        menu.classList.toggle("active", open);
     };
-
-    btn.addEventListener('click', toggleMenu);
-
-    links.forEach(link => {
-        link.addEventListener('click', () => {
-            if (menu.classList.contains('active')) toggleMenu();
-        });
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && menu.classList.contains('active')) {
-            toggleMenu();
-            btn.focus();
+    button.addEventListener("click", () => setState(button.getAttribute("aria-expanded") !== "true"));
+    links.forEach(link => link.addEventListener("click", () => setState(false)));
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && button.getAttribute("aria-expanded") === "true") {
+            setState(false); button.focus();
         }
     });
-
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 768 && menu.classList.contains('active')) {
-            toggleMenu();
-        }
-    });
+    window.addEventListener("resize", () => { if (window.innerWidth > 768) setState(false); });
 }

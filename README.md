@@ -1,28 +1,60 @@
 # LandingPage-Curinga
 
-Template de Landing Page profissional em HTML, CSS e JavaScript puro (Vanilla), otimizado para pequenos e médios negócios locais (Clínicas, Oficinas, Consultorias, Comércio em geral). 
+Modelo reutilizável de landing page em HTML, CSS e JavaScript puro para pequenos negócios.
 
-**Características da versão atualizada:**
-- 🛡️ **Seguro:** Sem dependências externas e sem uso de `innerHTML` para inserção de conteúdo sensível.
-- 📱 **Responsivo & Acessível:** Funciona em qualquer tela, com navegação por teclado testada e suporte a leitores de tela (`aria-attributes`).
-- ⚡ **Performance e SEO:** Estrutura otimizada, tags semânticas e carregamento rápido.
-- ⚙️ **Configuração Centralizada:** Para personalizar todo o site (cores, textos, logos, telefones), basta editar um único objeto `SITE_CONFIG` no topo do `script.js`.
+## Arquivos
 
-## Como utilizar
+- `index.html`: estrutura e metadados.
+- `style.css`: aparência e responsividade.
+- `script.js`: configuração da empresa e comportamento da página.
 
-1. Baixe os arquivos (`index.html`, `style.css` e `script.js`).
-2. Abra o arquivo `script.js` no seu editor de texto.
-3. Edite as informações dentro do objeto `SITE_CONFIG`.
+## Personalização
 
-### Exemplo de Ocultação Automática
-A lógica de renderização é inteligente. Se o cliente não possuir uma informação, basta deixar a string vazia (`""`) ou remover a chave do objeto.
-- Não tem Instagram? Defina `instagram: ""` e o botão desaparece.
-- Não tem Avaliações ainda? Defina `avaliacoes: []` e a seção correspondente sumirá do layout e do menu principal automaticamente, sem deixar buracos ou links quebrados.
+Edite o objeto `SITE_CONFIG`, no início de `script.js`.
 
-### Segurança e SEO
-- Os links de telefone e WhatsApp são sanitizados automaticamente (remover espaços, traços).
-- Se uma URL de imagem configurada estiver incorreta ou sair do ar, o script injeta instantaneamente um *placeholder SVG*, impedindo que o layout quebre.
-- Altere os atributos estáticos nas tags `<meta>` do `index.html` para as redes sociais indexarem corretamente o projeto na primeira vez que for publicado, o JS fará o restante da atualização de títulos dinamicamente.
+- `empresa`: nome, logotipo, cores e URL pública.
+- `seo`: título, descrição e imagem de compartilhamento.
+- `hero`: título, texto, imagem e texto do botão.
+- `contato`: WhatsApp, telefone, endereço, redes sociais e mapa.
+- `servicos`, `diferenciais`, `galeria` e `avaliacoes`: listas de conteúdo.
 
-## Implantação
-Sendo HTML/CSS/JS estático puro, você pode hospedar gratuitamente em plataformas como GitHub Pages, Vercel, Netlify ou qualquer hospedagem tradicional (cPanel, HostGator, Locaweb).
+O modelo começa sem dados fictícios. Preencha apenas informações reais e autorizadas pelo cliente. Listas vazias ou sem itens válidos ocultam a seção e seu link no menu.
+
+### Exemplo de configuração
+
+```js
+empresa: {
+    nome: "Nome da empresa",
+    logoUrl: "https://exemplo.com/logo.png",
+    corPrimaria: "#0056b3",
+    corSecundaria: "#f8f9fa",
+    urlSite: "https://exemplo.com"
+},
+contato: {
+    whatsapp: "5511999999999",
+    telefone: "1133333333",
+    endereco: "Rua Exemplo, 100",
+    redesSociais: [{ nome: "Instagram", url: "https://instagram.com/empresa" }],
+    mapaUrl: "https://www.google.com/maps/embed?..."
+}
+```
+
+Use o código do país no WhatsApp. Espaços, parênteses e traços são removidos ao montar links de telefone.
+
+## Segurança e imagens
+
+- Textos usam `textContent`, não `innerHTML`.
+- Imagens aceitam HTTPS ou caminhos relativos locais.
+- Redes sociais e metadados externos exigem HTTPS.
+- O mapa aceita somente URLs HTTPS de incorporação do Google Maps em domínios permitidos.
+- Telefones são validados antes de gerar links `tel:` e `wa.me`.
+- Imagens quebradas exibem um placeholder SVG local.
+- Links de seções ocultas também são ocultados no menu.
+
+## SEO e compartilhamento
+
+O JavaScript atualiza metadados durante a execução. Alguns robôs de redes sociais não executam JavaScript; preencha também os metadados estáticos no `index.html` antes de publicar cada versão personalizada.
+
+## Publicação
+
+Hospede no GitHub Pages, Netlify, Vercel ou em uma hospedagem estática tradicional. Para cada cliente, publique uma cópia personalizada com domínio e conteúdo autorizados.
