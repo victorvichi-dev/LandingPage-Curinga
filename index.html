@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Metadados Nativos -->
     <title id="meta-title"></title>
     <meta name="description" id="meta-description" content="">
     
-    <!-- Open Graph -->
+    <!-- Open Graph (IDs padronizados para o JS) -->
     <meta property="og:type" content="website">
     <meta property="og:title" id="og-title" content="">
     <meta property="og:description" id="og-description" content="">
@@ -19,14 +21,17 @@
     <header class="header">
         <div class="header-container">
             <a href="#" class="logo-link">
-                <img id="header-logo" src="" alt="Logotipo da Empresa" style="display:none;">
+                <img id="header-logo" src="" alt="Logotipo" style="display:none;">
+                <!-- ID alinhado com o JS: company-name -->
                 <span id="company-name" class="company-name"></span>
             </a>
             
-            <button type="button" id="mobile-menu-btn" aria-expanded="false" aria-controls="main-menu" aria-label="Abrir menu">
+            <!-- ID alinhado com o JS: mobile-menu-btn -->
+            <button type="button" id="mobile-menu-btn" class="mobile-menu-btn" aria-expanded="false" aria-controls="main-menu" aria-label="Abrir menu">
                 <span class="hamburger"></span>
             </button>
             
+            <!-- ID alinhado com o JS: main-menu e menu-list -->
             <nav id="main-menu" class="main-menu">
                 <ul class="menu-list">
                     <li><a href="#hero">Início</a></li>
@@ -45,7 +50,8 @@
             <div class="hero-content">
                 <h1 id="hero-title"></h1>
                 <p id="hero-text"></p>
-                <a id="hero-cta" href="#" class="btn-primary" target="_blank" rel="noopener noreferrer" style="display:none;"></a>
+                <!-- ID alinhado com o JS: hero-cta -->
+                <a id="hero-cta" href="#" class="btn-primary hero-cta" target="_blank" rel="noopener noreferrer" style="display:none;"></a>
             </div>
             <div class="hero-image-container">
                 <img id="hero-img" src="" alt="Imagem Principal" style="display:none;">
@@ -55,6 +61,7 @@
         <section id="servicos" class="servicos-section" style="display:none;">
             <div class="container">
                 <h2>Nossos Serviços</h2>
+                <!-- ID alinhado com o JS: servicos-grid -->
                 <div id="servicos-grid" class="servicos-grid"></div>
             </div>
         </section>
@@ -62,6 +69,7 @@
         <section id="diferenciais" class="diferenciais-section" style="display:none;">
             <div class="container">
                 <h2>Por que nos escolher?</h2>
+                <!-- ID alinhado com o JS: diferenciais-grid -->
                 <div id="diferenciais-grid" class="diferenciais-grid"></div>
             </div>
         </section>
@@ -69,6 +77,7 @@
         <section id="galeria" class="galeria-section" style="display:none;">
             <div class="container">
                 <h2>Galeria</h2>
+                <!-- ID alinhado com o JS: galeria-grid -->
                 <div id="galeria-grid" class="galeria-grid"></div>
             </div>
         </section>
@@ -76,6 +85,7 @@
         <section id="avaliacoes" class="avaliacoes-section" style="display:none;">
             <div class="container">
                 <h2>O que dizem nossos clientes</h2>
+                <!-- ID alinhado com o JS: avaliacoes-grid -->
                 <div id="avaliacoes-grid" class="avaliacoes-grid"></div>
             </div>
         </section>
@@ -84,11 +94,13 @@
             <div class="container">
                 <h2>Contato</h2>
                 <div class="contato-info">
+                    <!-- IDs de contato padronizados -->
                     <p id="endereco-container" style="display:none;"><strong class="contato-label">Endereço:</strong> <span id="endereco-text"></span></p>
                     <p id="telefone-container" style="display:none;"><strong class="contato-label">Telefone:</strong> <a id="telefone-link" href="#"></a></p>
                     <p id="whatsapp-container" style="display:none;"><strong class="contato-label">WhatsApp:</strong> <a id="whatsapp-link" href="#" target="_blank" rel="noopener noreferrer"></a></p>
                 </div>
                 <div id="redes-sociais-container" class="redes-sociais-container"></div>
+                <!-- ID alinhado com o JS: mapa-container -->
                 <div id="mapa-container" class="mapa-container"></div>
             </div>
         </section>

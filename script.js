@@ -1,31 +1,37 @@
 const SITE_CONFIG = {
     empresa: {
-        nome: "", 
+        nome: "Empresa Demo", 
         logoUrl: "", 
-        corPrimaria: "",
-        corSecundaria: "",
-        urlSite: "" 
+        corPrimaria: "#0056b3",
+        corSecundaria: "#f8f9fa",
+        urlSite: "https://meusite.com" 
     },
     seo: {
-        titulo: "",
-        descricao: "",
+        titulo: "Empresa Demo - Excelência em Serviços",
+        descricao: "Soluções completas para você.",
         imagemOg: "" 
     },
     hero: {
-        titulo: "",
-        texto: "",
+        titulo: "Bem-vindo à Empresa Demo",
+        texto: "Soluções rápidas e eficientes para o seu negócio.",
         imagemUrl: "", 
-        textoBotao: ""
+        textoBotao: "Fale Conosco"
     },
     contato: {
-        whatsapp: "", 
-        telefone: "", 
-        endereco: "", 
-        redesSociais: [], 
+        whatsapp: "5511999999999", 
+        telefone: "1133333333", 
+        endereco: "Rua Demo, 123 - Centro", 
+        redesSociais: [
+            { nome: "Instagram", url: "https://instagram.com" }
+        ], 
         mapaUrl: "" 
     },
-    servicos: [], 
-    diferenciais: [], 
+    servicos: [
+        { titulo: "Serviço A", descricao: "Descrição do serviço A." }
+    ], 
+    diferenciais: [
+        { titulo: "Qualidade", descricao: "Nossos padrões são altos." }
+    ], 
     galeria: [], 
     avaliacoes: [] 
 };
@@ -36,38 +42,38 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =========================================================================
-   FUNÇÕES DE VALIDAÇÃO REFORÇADAS
+   FUNÇÕES DE VALIDAÇÃO (Protocol-Relative / Injeções)
    ========================================================================= */
-
-function isHttpsUrl(url) {
+function isSafeUrl(url) {
     if (!url || typeof url !== 'string') return false;
     
-    // Bloqueia URLs protocol-relative explicitamente
+    // Bloqueia ataques protocol-relative
     if (url.startsWith('//')) return false;
 
     try {
         const parsed = new URL(url);
+        // Exige protocolo seguro em URLs absolutas
         return parsed.protocol === 'https:';
     } catch (e) {
-        // Se disparar erro no new URL, tentamos validar como caminho relativo seguro.
-        // Rejeita a presença de ':' que poderia iniciar esquemas de injeção (javascript:, data:)
+        // Se cair aqui, é um caminho relativo.
+        // Bloqueia tentativas de injetar protocolos perigosos como 'javascript:' ou 'data:'
         if (url.includes(':')) return false;
+        
+        // Permite caminhos relativos legítimos iniciados em '/' ou alphanumerics
         return true; 
     }
 }
 
 function isValidGoogleMapsUrl(url) {
     if (!url || typeof url !== 'string') return false;
-    
-    // Bloqueia URLs protocol-relative explícitas
     if (url.startsWith('//')) return false;
 
     try {
         const parsed = new URL(url);
         const isHttps = parsed.protocol === 'https:';
-        const isGoogleDomain = parsed.hostname === 'www.google.com' || parsed.hostname === 'google.com' || parsed.hostname.endsWith('.google.com');
-        const isEmbedPath = parsed.pathname.startsWith('/maps/embed');
-        return isHttps && isGoogleDomain && isEmbedPath;
+        const isGoogle = parsed.hostname.includes('google.com');
+        const isEmbed = parsed.pathname.startsWith('/maps/embed');
+        return isHttps && isGoogle && isEmbed;
     } catch (e) {
         return false;
     }
@@ -84,7 +90,7 @@ function getPhoneDigits(phone) {
 }
 
 /* =========================================================================
-   INICIALIZAÇÃO
+   INICIALIZAÇÃO DO DOM
    ========================================================================= */
 function inicializarSite() {
     if (SITE_CONFIG.empresa.corPrimaria) {
@@ -99,15 +105,15 @@ function inicializarSite() {
     safeSetAttribute('og-title', 'content', SITE_CONFIG.seo.titulo || SITE_CONFIG.empresa.nome);
     safeSetAttribute('og-description', 'content', SITE_CONFIG.seo.descricao);
     
-    if (isHttpsUrl(SITE_CONFIG.seo.imagemOg)) safeSetAttribute('og-image', 'content', SITE_CONFIG.seo.imagemOg);
-    if (isHttpsUrl(SITE_CONFIG.empresa.urlSite)) safeSetAttribute('og-url', 'content', SITE_CONFIG.empresa.urlSite);
+    if (isSafeUrl(SITE_CONFIG.seo.imagemOg)) safeSetAttribute('og-image', 'content', SITE_CONFIG.seo.imagemOg);
+    if (isSafeUrl(SITE_CONFIG.empresa.urlSite)) safeSetAttribute('og-url', 'content', SITE_CONFIG.empresa.urlSite);
 
     safeSetText('company-name', SITE_CONFIG.empresa.nome);
-    if (isHttpsUrl(SITE_CONFIG.empresa.logoUrl)) safeSetImage('header-logo', SITE_CONFIG.empresa.logoUrl);
+    if (isSafeUrl(SITE_CONFIG.empresa.logoUrl)) safeSetImage('header-logo', SITE_CONFIG.empresa.logoUrl);
 
     safeSetText('hero-title', SITE_CONFIG.hero.titulo);
     safeSetText('hero-text', SITE_CONFIG.hero.texto);
-    if (isHttpsUrl(SITE_CONFIG.hero.imagemUrl)) safeSetImage('hero-img', SITE_CONFIG.hero.imagemUrl);
+    if (isSafeUrl(SITE_CONFIG.hero.imagemUrl)) safeSetImage('hero-img', SITE_CONFIG.hero.imagemUrl);
     
     const heroCta = document.getElementById('hero-cta');
     if (heroCta && isValidPhoneNumber(SITE_CONFIG.contato.whatsapp)) {
@@ -116,16 +122,17 @@ function inicializarSite() {
         heroCta.style.display = 'inline-block';
     }
 
-    renderizarGrid('servicos-grid', SITE_CONFIG.servicos, buildCardTexto);
+    // Grid e classes CSS injetadas de forma correspondente
+    renderizarGrid('servicos-grid', SITE_CONFIG.servicos, buildCardTexto, 'service-card');
     alternarVisibilidadeSecao('servicos', SITE_CONFIG.servicos);
 
-    renderizarGrid('diferenciais-grid', SITE_CONFIG.diferenciais, buildCardTexto);
+    renderizarGrid('diferenciais-grid', SITE_CONFIG.diferenciais, buildCardTexto, 'diff-card');
     alternarVisibilidadeSecao('diferenciais', SITE_CONFIG.diferenciais);
 
-    renderizarGrid('galeria-grid', SITE_CONFIG.galeria, buildCardImagem);
+    renderizarGrid('galeria-grid', SITE_CONFIG.galeria, buildCardImagem, 'gallery-card');
     alternarVisibilidadeSecao('galeria', SITE_CONFIG.galeria);
 
-    renderizarGrid('avaliacoes-grid', SITE_CONFIG.avaliacoes, buildCardAvaliacao);
+    renderizarGrid('avaliacoes-grid', SITE_CONFIG.avaliacoes, buildCardAvaliacao, 'review-card');
     alternarVisibilidadeSecao('avaliacoes', SITE_CONFIG.avaliacoes);
 
     configurarContato();
@@ -136,7 +143,7 @@ function inicializarSite() {
 }
 
 /* =========================================================================
-   FUNÇÕES AUXILIARES SEGURAS (DOM Manipulation)
+   FUNÇÕES AUXILIARES (Sem innerHTML)
    ========================================================================= */
 function safeSetText(id, text) {
     const el = document.getElementById(id);
@@ -163,7 +170,6 @@ function safeSetImage(id, url) {
     const el = document.getElementById(id);
     if (!el) return;
     if (url) {
-        el.onerror = applyImageFallback;
         el.src = url;
         el.style.display = 'block';
     } else {
@@ -171,24 +177,18 @@ function safeSetImage(id, url) {
     }
 }
 
-function applyImageFallback() {
-    this.onerror = null; 
-    const svgFallback = `data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200"%3E%3Crect fill="%23e9ecef" width="300" height="200"/%3E%3Ctext fill="%236c757d" x="50%25" y="50%25" font-family="sans-serif" font-size="16" text-anchor="middle" dominant-baseline="middle"%3EImagem Indispon%C3%ADvel%3C/text%3E%3C/svg%3E`;
-    this.src = svgFallback;
-    this.style.objectFit = 'cover';
-}
-
-function renderizarGrid(id, items, buildFn) {
+// NOVO: Adicionado cardClass para inserir classes como service-card, diff-card, etc.
+function renderizarGrid(id, items, buildFn, cardClass) {
     const grid = document.getElementById(id);
     if (!grid) return;
     
-    // Substituído innerHTML='' por replaceChildren() para máxima segurança
-    grid.replaceChildren();
+    grid.replaceChildren(); // Seguro em vez de innerHTML = ''
     
     if (Array.isArray(items) && items.length > 0) {
         items.forEach(item => {
             const card = document.createElement('div');
-            card.className = 'card';
+            // Anexa a classe base 'card' E a classe específica de estilo
+            card.className = `card ${cardClass}`;
             buildFn(item, card);
             grid.appendChild(card);
         });
@@ -212,12 +212,10 @@ function buildCardTexto(item, card) {
 }
 
 function buildCardImagem(item, card) {
-    const img = document.createElement('img');
-    if (isHttpsUrl(item.url)) {
+    if (isSafeUrl(item.url)) {
+        const img = document.createElement('img');
         img.alt = item.alt || 'Imagem da galeria';
         img.loading = 'lazy'; 
-        img.decoding = 'async';
-        img.onerror = applyImageFallback;
         img.src = item.url;
         card.appendChild(img);
     }
@@ -229,12 +227,10 @@ function buildCardAvaliacao(item, card) {
     em.textContent = `"${item.texto}"`;
     p.appendChild(em);
     
-    const br = document.createElement('br');
     const strong = document.createElement('strong');
     strong.textContent = `- ${item.nome}`;
     
     card.appendChild(p);
-    card.appendChild(br);
     card.appendChild(strong);
 }
 
@@ -279,10 +275,10 @@ function configurarContato() {
 
     const redesContainer = document.getElementById('redes-sociais-container');
     if (redesContainer) {
-        redesContainer.replaceChildren(); // Seguro em vez de innerHTML=''
+        redesContainer.replaceChildren();
         if (Array.isArray(SITE_CONFIG.contato.redesSociais)) {
             SITE_CONFIG.contato.redesSociais.forEach(rede => {
-                if (isHttpsUrl(rede.url)) {
+                if (isSafeUrl(rede.url)) {
                     const a = document.createElement('a');
                     a.href = rede.url;
                     a.textContent = rede.nome;
@@ -296,7 +292,7 @@ function configurarContato() {
 
     const mapaContainer = document.getElementById('mapa-container');
     if (mapaContainer) {
-        mapaContainer.replaceChildren(); // Seguro em vez de innerHTML=''
+        mapaContainer.replaceChildren();
         if (isValidGoogleMapsUrl(SITE_CONFIG.contato.mapaUrl)) {
             const iframe = document.createElement('iframe');
             iframe.src = SITE_CONFIG.contato.mapaUrl;
