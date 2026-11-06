@@ -241,6 +241,7 @@ section h2 {
     .hero-section { flex-direction: column; text-align: center; padding: 3rem 5%; }
     .mobile-menu-btn { display: block; }
     .main-menu {
+        display: block;
         position: fixed;
         top: 70px;
         left: -100%;
@@ -257,3 +258,8 @@ section h2 {
     .menu-list { flex-direction: column; width: 100%; text-align: center; padding-top: 2rem; }
     .menu-list li { margin: 1.2rem 0; }
 }
+
+.menu-list li[hidden] { display: none !important; }
+.image-fallback { object-fit: contain; background-color: var(--secondary-color); }
+.gallery-card { min-height: 220px; }
+.gallery-card img { min-height: 220px; }
