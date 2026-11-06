@@ -6,7 +6,7 @@ const SITE_CONFIG = {
     servicos: [], diferenciais: [], galeria: [], avaliacoes: []
 };
 
-const FALLBACK_IMAGE = \`data:image/svg+xml;charset=UTF-8,\${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500"><rect width="800" height="500" fill="#f1f3f5"/><path d="M300 310l90-100 70 75 45-50 95 105H200z" fill="#c5ccd3"/><circle cx="330" cy="155" r="35" fill="#c5ccd3"/><text x="400" y="390" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" fill="#68727d">Imagem indisponível</text></svg>')}\`;
+const FALLBACK_IMAGE = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500"><rect width="800" height="500" fill="#f1f3f5"/><path d="M300 310l90-100 70 75 45-50 95 105H200z" fill="#c5ccd3"/><circle cx="330" cy="155" r="35" fill="#c5ccd3"/><text x="400" y="390" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" fill="#68727d">Imagem indisponível</text></svg>')}`;
 
 document.addEventListener("DOMContentLoaded", () => {
     inicializarSite();
@@ -75,7 +75,7 @@ function inicializarSite() {
     const heroCta = document.getElementById("hero-cta");
     if (heroCta && isValidPhoneNumber(SITE_CONFIG.contato.whatsapp)) {
         heroCta.textContent = SITE_CONFIG.hero.textoBotao || "Fale conosco";
-        heroCta.href = \`https://wa.me/\${getPhoneDigits(SITE_CONFIG.contato.whatsapp)}\`;
+        heroCta.href = `https://wa.me/${getPhoneDigits(SITE_CONFIG.contato.whatsapp)}`;
         heroCta.style.display = "inline-block";
     } else if (heroCta) {
         heroCta.style.display = "none";
@@ -93,7 +93,7 @@ function inicializarSite() {
 
     configurarContato();
     safeSetText("footer-text", SITE_CONFIG.empresa.nome
-        ? \`© \${new Date().getFullYear()} \${SITE_CONFIG.empresa.nome}. Todos os direitos reservados.\`
+        ? `© ${new Date().getFullYear()} ${SITE_CONFIG.empresa.nome}. Todos os direitos reservados.`
         : "");
     atualizarLinksMenu();
 }
@@ -138,7 +138,7 @@ function renderizarGrid(id, items, buildFn, cardClass) {
     items.forEach(item => {
         if (!item || typeof item !== "object") return;
         const card = document.createElement("div");
-        card.className = \`card \${cardClass}\`;
+        card.className = `card ${cardClass}`;
         if (buildFn(item, card)) { grid.appendChild(card); count++; }
     });
     return count;
@@ -172,7 +172,7 @@ function buildCardAvaliacao(item, card) {
     if (!review || !author) return false;
     const p = document.createElement("p");
     const em = document.createElement("em");
-    em.textContent = \`"\${review}"\`;
+    em.textContent = `"${review}"`;
     p.appendChild(em);
     const strong = document.createElement("strong");
     strong.textContent = author;
@@ -195,7 +195,7 @@ function configurarContato() {
     if (phoneContainer && phoneLink) {
         if (isValidPhoneNumber(contact.telefone)) {
             phoneLink.textContent = contact.telefone;
-            phoneLink.href = \`tel:\${getPhoneDigits(contact.telefone)}\`;
+            phoneLink.href = `tel:${getPhoneDigits(contact.telefone)}`;
             phoneContainer.style.display = "";
         } else {
             phoneLink.removeAttribute("href"); phoneLink.textContent = ""; phoneContainer.style.display = "none";
@@ -207,7 +207,7 @@ function configurarContato() {
     if (whatsappContainer && whatsappLink) {
         if (isValidPhoneNumber(contact.whatsapp)) {
             whatsappLink.textContent = contact.whatsapp;
-            whatsappLink.href = \`https://wa.me/\${getPhoneDigits(contact.whatsapp)}\`;
+            whatsappLink.href = `https://wa.me/${getPhoneDigits(contact.whatsapp)}`;
             whatsappContainer.style.display = "";
         } else {
             whatsappLink.removeAttribute("href"); whatsappLink.textContent = ""; whatsappContainer.style.display = "none";
