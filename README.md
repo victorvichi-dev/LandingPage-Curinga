@@ -15,7 +15,7 @@ Edite o objeto `SITE_CONFIG`, no início de `script.js`.
 - `empresa`: nome, logotipo, cores e URL pública.
 - `seo`: título, descrição e imagem de compartilhamento.
 - `hero`: título, texto, imagem e texto do botão.
-- `contato`: WhatsApp, telefone, endereço, redes sociais e mapa.
+- `contato`: WhatsApp (número ou URL HTTPS), telefone, endereço, redes sociais e mapa.
 - `servicos`, `diferenciais`, `galeria` e `avaliacoes`: listas de conteúdo.
 
 O modelo começa sem dados fictícios. Preencha apenas informações reais e autorizadas pelo cliente. Listas vazias ou sem itens válidos ocultam a seção e seu link no menu.
@@ -32,6 +32,7 @@ empresa: {
 },
 contato: {
     whatsapp: "5511999999999",
+    whatsappUrl: "https://exemplo.com/atendimento", // opcional; tem prioridade sobre o número
     telefone: "1133333333",
     endereco: "Rua Exemplo, 100",
     redesSociais: [{ nome: "Instagram", url: "https://instagram.com/empresa" }],
@@ -39,7 +40,7 @@ contato: {
 }
 ```
 
-Use o código do país no WhatsApp. Espaços, parênteses e traços são removidos ao montar links de telefone.
+Use o código do país no número do WhatsApp. Se o atendimento usar um link HTTPS (por exemplo, um link curto), informe `whatsappUrl`; ele terá prioridade. Espaços, parênteses e traços são removidos ao montar links de telefone.
 
 ## Segurança e imagens
 
