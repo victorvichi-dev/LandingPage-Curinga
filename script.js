@@ -36,24 +36,32 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =========================================================================
-   FUNÇÕES DE VALIDAÇÃO ESTritas
+   FUNÇÕES DE VALIDAÇÃO REFORÇADAS
    ========================================================================= */
 
-// Verifica se a URL é expressamente HTTPS (ou caminho relativo seguro, barrando payloads "javascript:")
 function isHttpsUrl(url) {
-    if (!url) return false;
+    if (!url || typeof url !== 'string') return false;
+    
+    // Bloqueia URLs protocol-relative explicitamente
+    if (url.startsWith('//')) return false;
+
     try {
         const parsed = new URL(url);
         return parsed.protocol === 'https:';
     } catch (e) {
-        // Fallback para caminhos relativos (ex: "./img.png"), bloqueando uso de protocolos explícitos injetados
-        return !url.includes(':');
+        // Se disparar erro no new URL, tentamos validar como caminho relativo seguro.
+        // Rejeita a presença de ':' que poderia iniciar esquemas de injeção (javascript:, data:)
+        if (url.includes(':')) return false;
+        return true; 
     }
 }
 
-// Verifica protocolo, domínio oficial e o caminho exato de incorporação.
 function isValidGoogleMapsUrl(url) {
-    if (!url) return false;
+    if (!url || typeof url !== 'string') return false;
+    
+    // Bloqueia URLs protocol-relative explícitas
+    if (url.startsWith('//')) return false;
+
     try {
         const parsed = new URL(url);
         const isHttps = parsed.protocol === 'https:';
@@ -65,14 +73,12 @@ function isValidGoogleMapsUrl(url) {
     }
 }
 
-// Garante que o telefone tem ao menos 8 dígitos numéricos, prevenindo links defeituosos
 function isValidPhoneNumber(phone) {
-    if (!phone) return false;
+    if (!phone || typeof phone !== 'string') return false;
     const digits = phone.replace(/\D/g, '');
     return digits.length >= 8 && digits.length <= 15;
 }
 
-// Extrai somente números do telefone
 function getPhoneDigits(phone) {
     return phone.replace(/\D/g, '');
 }
@@ -157,7 +163,7 @@ function safeSetImage(id, url) {
     const el = document.getElementById(id);
     if (!el) return;
     if (url) {
-        el.onerror = applyImageFallback; // Definido ANTES de atribuir src
+        el.onerror = applyImageFallback;
         el.src = url;
         el.style.display = 'block';
     } else {
@@ -175,7 +181,9 @@ function applyImageFallback() {
 function renderizarGrid(id, items, buildFn) {
     const grid = document.getElementById(id);
     if (!grid) return;
-    grid.innerHTML = ''; 
+    
+    // Substituído innerHTML='' por replaceChildren() para máxima segurança
+    grid.replaceChildren();
     
     if (Array.isArray(items) && items.length > 0) {
         items.forEach(item => {
@@ -209,7 +217,7 @@ function buildCardImagem(item, card) {
         img.alt = item.alt || 'Imagem da galeria';
         img.loading = 'lazy'; 
         img.decoding = 'async';
-        img.onerror = applyImageFallback; // Definido ANTES de atribuir src
+        img.onerror = applyImageFallback;
         img.src = item.url;
         card.appendChild(img);
     }
@@ -271,7 +279,7 @@ function configurarContato() {
 
     const redesContainer = document.getElementById('redes-sociais-container');
     if (redesContainer) {
-        redesContainer.innerHTML = '';
+        redesContainer.replaceChildren(); // Seguro em vez de innerHTML=''
         if (Array.isArray(SITE_CONFIG.contato.redesSociais)) {
             SITE_CONFIG.contato.redesSociais.forEach(rede => {
                 if (isHttpsUrl(rede.url)) {
@@ -288,7 +296,7 @@ function configurarContato() {
 
     const mapaContainer = document.getElementById('mapa-container');
     if (mapaContainer) {
-        mapaContainer.innerHTML = '';
+        mapaContainer.replaceChildren(); // Seguro em vez de innerHTML=''
         if (isValidGoogleMapsUrl(SITE_CONFIG.contato.mapaUrl)) {
             const iframe = document.createElement('iframe');
             iframe.src = SITE_CONFIG.contato.mapaUrl;
