@@ -265,25 +265,27 @@ function configurarContato() {
         socialContainer.style.display = socialContainer.childElementCount ? "" : "none";
     }
 
-    const mapContainer = document.getElementById("mapa-container");
-    if (mapContainer) {
-        mapContainer.replaceChildren();
-        if (isValidGoogleMapsUrl(contact.mapaUrl)) {
-            const iframe = document.createElement("iframe");
-            iframe.src = contact.mapaUrl;
-            iframe.title = "Localização da empresa no Google Maps";
-            iframe.loading = "lazy";
-            iframe.referrerPolicy = "no-referrer-when-downgrade";
-            iframe.allowFullscreen = true;
-            mapContainer.appendChild(iframe);
-            mapContainer.style.display = "";
-        } else mapContainer.style.display = "none";
+    const mapLinkContainer = document.getElementById("mapa-link-container");
+    const mapLink = document.getElementById("mapa-link");
+    if (mapLinkContainer && mapLink) {
+        const explicitMapUrl = isHttpsUrl(contact.mapaUrl) ? contact.mapaUrl : "";
+        const generatedMapUrl = address
+            ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ", Osvaldo Cruz - SP")}`
+            : "";
+        const destination = explicitMapUrl || generatedMapUrl;
+        if (destination) {
+            mapLink.href = destination;
+            mapLinkContainer.style.display = "";
+        } else {
+            mapLink.removeAttribute("href");
+            mapLinkContainer.style.display = "none";
+        }
     }
 
     const hasContact = Boolean(address || isValidPhoneNumber(contact.telefone) ||
         isValidPhoneNumber(contact.whatsapp) || isHttpsUrl(contact.whatsappUrl) ||
         (socialContainer && socialContainer.childElementCount) ||
-        (mapContainer && mapContainer.childElementCount));
+        (mapLinkContainer && mapLinkContainer.style.display !== "none"));
     const section = document.getElementById("contato");
     if (section) section.style.display = hasContact ? "" : "none";
 }
