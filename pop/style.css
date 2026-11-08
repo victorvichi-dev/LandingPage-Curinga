@@ -90,3 +90,7 @@ section:nth-child(even) { background: var(--secondary-color); }
 }
 @media (max-width: 420px) { .logo-link { font-size: 1.35rem; } .hero-section { min-height: 400px; padding: 54px 7%; } .hero-content::before { font-size: .66rem; letter-spacing: .14em; } .hero-content h1 { font-size: 2.45rem; } .btn-primary { width: 100%; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+/* Link externo para abrir a localização sem carregar um mapa pesado na página. */
+.mapa-link-container { display: flex; justify-content: center; margin-top: 28px; }
+.mapa-link { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 9px; padding: 12px 22px; border: 1px solid rgba(90, 62, 54, .2); border-radius: 999px; color: var(--primary-color); font-weight: 700; text-decoration: none; transition: background .2s ease, color .2s ease, transform .2s ease; }
+.mapa-link:hover { transform: translateY(-2px); background: var(--primary-color); color: #fff; }
