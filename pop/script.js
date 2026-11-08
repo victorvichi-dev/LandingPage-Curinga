@@ -270,7 +270,7 @@ function configurarContato() {
     if (mapLinkContainer && mapLink) {
         const explicitMapUrl = isHttpsUrl(contact.mapaUrl) ? contact.mapaUrl : "";
         const generatedMapUrl = address
-            ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ", Osvaldo Cruz - SP")}`
+            ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
             : "";
         const destination = explicitMapUrl || generatedMapUrl;
         if (destination) {
