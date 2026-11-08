@@ -2,7 +2,7 @@ const SITE_CONFIG = {
     empresa: {
         nome: "POP Papelaria & Cafeteria",
         logoUrl: "",
-        // Cores provisórias para a demonstração; confirmar com a identidade visual oficial.
+        // Paleta provisória para a demonstração; confirmar com a identidade visual oficial.
         corPrimaria: "#5A3E36",
         corSecundaria: "#F6F0E8",
         urlSite: ""
@@ -54,17 +54,19 @@ function isHttpsUrl(url) {
         return parsed.protocol === "https:" && !parsed.username && !parsed.password;
     } catch (error) { return false; }
 }
+
 function isSafeUrl(url) {
     if (typeof url !== "string" || !url.trim()) return false;
     const value = url.trim();
     if (value.startsWith("//") || value.startsWith("\\\\")) return false;
-    if (/^[a-z][a-z\\d+.-]*:/i.test(value)) return isHttpsUrl(value);
+    if (/^[a-z][a-z\d+.-]*:/i.test(value)) return isHttpsUrl(value);
     try {
         const parsed = new URL(value, window.location.href);
         return parsed.origin === window.location.origin &&
             (parsed.protocol === "https:" || parsed.protocol === "http:");
     } catch (error) { return false; }
 }
+
 function isValidGoogleMapsUrl(url) {
     if (!isHttpsUrl(url)) return false;
     try {
@@ -74,16 +76,18 @@ function isValidGoogleMapsUrl(url) {
             (parsed.pathname === "/maps/embed" || parsed.pathname.startsWith("/maps/embed/"));
     } catch (error) { return false; }
 }
+
 function isValidPhoneNumber(phone) {
     if (typeof phone !== "string") return false;
-    const digits = phone.replace(/\\D/g, "");
+    const digits = phone.replace(/\D/g, "");
     return digits.length >= 8 && digits.length <= 15;
 }
-function getPhoneDigits(phone) { return phone.replace(/\\D/g, ""); }
+function getPhoneDigits(phone) { return phone.replace(/\D/g, ""); }
 
 function inicializarSite() {
     if (SITE_CONFIG.empresa.corPrimaria) document.documentElement.style.setProperty("--primary-color", SITE_CONFIG.empresa.corPrimaria);
     if (SITE_CONFIG.empresa.corSecundaria) document.documentElement.style.setProperty("--secondary-color", SITE_CONFIG.empresa.corSecundaria);
+
     const pageTitle = SITE_CONFIG.seo.titulo || SITE_CONFIG.empresa.nome || "Sua empresa";
     document.title = pageTitle;
     safeSetText("meta-title", pageTitle);
@@ -92,13 +96,16 @@ function inicializarSite() {
     safeSetAttribute("og-description", "content", SITE_CONFIG.seo.descricao);
     safeSetAttribute("og-image", "content", isHttpsUrl(SITE_CONFIG.seo.imagemOg) ? SITE_CONFIG.seo.imagemOg : "");
     safeSetAttribute("og-url", "content", isHttpsUrl(SITE_CONFIG.empresa.urlSite) ? SITE_CONFIG.empresa.urlSite : "");
+
     safeSetText("company-name", SITE_CONFIG.empresa.nome);
     safeSetImage("header-logo", isSafeUrl(SITE_CONFIG.empresa.logoUrl) ? SITE_CONFIG.empresa.logoUrl : "");
     safeSetText("hero-title", SITE_CONFIG.hero.titulo);
     safeSetText("hero-text", SITE_CONFIG.hero.texto);
+
     const heroImageContainer = document.querySelector(".hero-image-container");
     safeSetImage("hero-img", isSafeUrl(SITE_CONFIG.hero.imagemUrl) ? SITE_CONFIG.hero.imagemUrl : "");
     if (heroImageContainer) heroImageContainer.style.display = isSafeUrl(SITE_CONFIG.hero.imagemUrl) ? "" : "none";
+
     const heroCta = document.getElementById("hero-cta");
     const whatsappUrl = isHttpsUrl(SITE_CONFIG.contato.whatsappUrl) ? SITE_CONFIG.contato.whatsappUrl : "";
     if (heroCta && (whatsappUrl || isValidPhoneNumber(SITE_CONFIG.contato.whatsapp))) {
@@ -109,6 +116,7 @@ function inicializarSite() {
         heroCta.style.display = "none";
         heroCta.removeAttribute("href");
     }
+
     const services = renderizarGrid("servicos-grid", SITE_CONFIG.servicos, buildCardTexto, "service-card");
     alternarVisibilidadeSecao("servicos", services > 0);
     const differences = renderizarGrid("diferenciais-grid", SITE_CONFIG.diferenciais, buildCardTexto, "diff-card");
@@ -117,12 +125,14 @@ function inicializarSite() {
     alternarVisibilidadeSecao("galeria", gallery > 0);
     const reviews = renderizarGrid("avaliacoes-grid", SITE_CONFIG.avaliacoes, buildCardAvaliacao, "review-card");
     alternarVisibilidadeSecao("avaliacoes", reviews > 0);
+
     configurarContato();
     safeSetText("footer-text", SITE_CONFIG.empresa.nome
         ? `© ${new Date().getFullYear()} ${SITE_CONFIG.empresa.nome}. Todos os direitos reservados.`
         : "");
     atualizarLinksMenu();
 }
+
 function safeSetText(id, value) {
     const element = document.getElementById(id);
     if (!element) return;
@@ -204,6 +214,7 @@ function buildCardAvaliacao(item, card) {
     card.append(p, strong);
     return true;
 }
+
 function configurarContato() {
     const contact = SITE_CONFIG.contato;
     const addressContainer = document.getElementById("endereco-container");
@@ -213,6 +224,7 @@ function configurarContato() {
         addressText.textContent = address;
         addressContainer.style.display = address ? "" : "none";
     }
+
     const phoneContainer = document.getElementById("telefone-container");
     const phoneLink = document.getElementById("telefone-link");
     if (phoneContainer && phoneLink) {
@@ -224,6 +236,7 @@ function configurarContato() {
             phoneLink.removeAttribute("href"); phoneLink.textContent = ""; phoneContainer.style.display = "none";
         }
     }
+
     const whatsappContainer = document.getElementById("whatsapp-container");
     const whatsappLink = document.getElementById("whatsapp-link");
     if (whatsappContainer && whatsappLink) {
@@ -236,6 +249,7 @@ function configurarContato() {
             whatsappLink.removeAttribute("href"); whatsappLink.textContent = ""; whatsappContainer.style.display = "none";
         }
     }
+
     const socialContainer = document.getElementById("redes-sociais-container");
     if (socialContainer) {
         socialContainer.replaceChildren();
@@ -250,6 +264,7 @@ function configurarContato() {
         });
         socialContainer.style.display = socialContainer.childElementCount ? "" : "none";
     }
+
     const mapContainer = document.getElementById("mapa-container");
     if (mapContainer) {
         mapContainer.replaceChildren();
@@ -264,6 +279,7 @@ function configurarContato() {
             mapContainer.style.display = "";
         } else mapContainer.style.display = "none";
     }
+
     const hasContact = Boolean(address || isValidPhoneNumber(contact.telefone) ||
         isValidPhoneNumber(contact.whatsapp) || isHttpsUrl(contact.whatsappUrl) ||
         (socialContainer && socialContainer.childElementCount) ||
@@ -271,6 +287,7 @@ function configurarContato() {
     const section = document.getElementById("contato");
     if (section) section.style.display = hasContact ? "" : "none";
 }
+
 function atualizarLinksMenu() {
     document.querySelectorAll("#main-menu a[href^='#']").forEach(link => {
         const target = document.getElementById(link.getAttribute("href").slice(1));
