@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FFFCF8">
     <title id="meta-title">POP | Papelaria e Cafeteria em Osvaldo Cruz</title>
     <meta name="description" id="meta-description" content="Papelaria e cafeteria em Osvaldo Cruz. Conheça a POP e fale com nossa equipe.">
     <meta property="og:type" content="website">
@@ -13,16 +14,17 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
     <header class="header">
         <div class="header-container">
             <a href="#" class="logo-link">
-                <img id="header-logo" src="" alt="Logotipo" style="display:none;">
+                <img id="header-logo" src="" alt="Logotipo da POP Papelaria &amp; Cafeteria" style="display:none;">
                 <span id="company-name" class="company-name"></span>
             </a>
             <button type="button" id="mobile-menu-btn" class="mobile-menu-btn" aria-expanded="false" aria-controls="main-menu" aria-label="Abrir menu">
                 <span class="hamburger"></span>
             </button>
-            <nav id="main-menu" class="main-menu">
+            <nav id="main-menu" class="main-menu" aria-label="Navegação principal">
                 <ul class="menu-list">
                     <li><a href="#hero">Início</a></li>
                     <li><a href="#servicos">Serviços</a></li>
@@ -34,7 +36,7 @@
             </nav>
         </div>
     </header>
-    <main>
+    <main id="main-content" tabindex="-1">
         <section id="hero" class="hero-section">
             <div class="hero-content">
                 <h1 id="hero-title"></h1>
